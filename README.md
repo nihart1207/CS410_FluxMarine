@@ -6,9 +6,9 @@ Company Overview - Flux Marine is a company based out of Rhode Island. The main 
 Project Overview - To develop a web or mobile application that allows a startup to track inventory levels, monitor stock movements, and automatically reorder items when they fall below a certain threshold. The system will also include barcode scanning, product information, and stock alerts functionality. 
 
 Requirements 
-Database - To store information about the stock.
-User Interface - To enter and update product information.
-Dashboard - To view inventory details, track stock information and send stock alerts.(Use Themesforest.net for reference)
-Automatic reordering system - To reorder items when they fall below threshold.
-Barcode Scanner - To scan the codes for items and retrieve information as necessary. 
-Secure User authentication system - To ensure that only authorized people can access the system data.
+Database - To store information about the stock. //
+User Interface - To enter and update product information. // 
+Dashboard - To view inventory details, track stock information and send stock alerts.(Use Themesforest.net for reference)// 
+Automatic reordering system - To reorder items when they fall below threshold.//
+Barcode Scanner - To scan the codes for items and retrieve information as necessary.// 
+Secure User authentication system - To ensure that only authorized people can access the system data.//
