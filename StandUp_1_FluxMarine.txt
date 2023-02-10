@@ -52,3 +52,4 @@ Project Name - FluxMarine
    1. Formulate a deadline/task driven schedule to keep a track of progress (refer to the client’s pdf)
    2. Allocate tasks to team members based on their skills and experience.
    3. Research by the team members on the technologies they have to work with.
+   4. Identify if the startup is using any project management tools such as Jira, and if so, plan to integrate the inventory management system with it.
