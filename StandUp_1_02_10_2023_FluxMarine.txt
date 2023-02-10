@@ -1,0 +1,54 @@
+﻿Standup - 1 - 02/10/2023
+
+
+CS410: Introduction to Software Engineering 
+Project Name - FluxMarine 
+(Teaching Staff - Kunal & Kiran)
+
+
+
+
+
+
+1. Team Members - Nihar Tripathi (Team Leader), Nagarjuna Rapolu (Team Leader), Anirudh Timmanayanapeta, Tin Nguyen. 
+
+
+2. Company Overview - Flux Marine is a company based out of Rhode Island. The main aim of the company is to build electric motors that aim to clean up waterways and improve the boating experience for its customers while reducing pollution.
+
+
+3. Project Overview - To develop a web or mobile application that allows a startup to track inventory levels, monitor stock movements, and automatically reorder items when they fall below a certain threshold. The system will also include barcode scanning, product information, and stock alerts functionality. 
+
+
+4. Requirements 
+   1. Database - To store information about the stock.
+   2. User Interface - To enter and update product information.
+   3. Dashboard - To view inventory details, track stock information and send stock alerts.(Use Themesforest.net for reference)
+   4. Automatic reordering system - To reorder items when they fall below threshold.
+   5. Barcode Scanner - To scan the codes for items and retrieve information as necessary. 
+   6. Secure User authentication system - To ensure that only authorized people can access the system data.
+
+
+5. Technologies to be used(Currently decided)
+   1. Front-end - JavaScript, can go for simple lightweight framework such as Vue.js or for a scalable framework like React.js
+   2. Database - SQL/Excel, we will be deploying on the cloud, so knowledge about Cloud SQL, etc will be necessary
+   3. Back-end - Python/JavaScript/ NodeJS, Express.js for creating API
+
+
+6. Questions
+   1. When are we going to get the data from the client?
+   2. What will our data look like?
+   3. Ask whether the client needs a web application or a mobile application ? Or is it up to us to decide what to give them ?
+   4. Ask the client about inventory restocking and stock alerts in detail. How is it going to work ?
+   5. Will the team members be able to get in direct contact with the client ?
+
+
+7. What do you need right now?
+   1. Data from the client
+   2. Get some detailed information on how the company works and what they expect from us.
+   3. Research on any other more compatible and efficient technologies that can be used.
+
+
+8. Tasks to be performed
+   1. Formulate a deadline/task driven schedule to keep a track of progress (refer to the client’s pdf)
+   2. Allocate tasks to team members based on their skills and experience.
+   3. Research by the team members on the technologies they have to work with.
