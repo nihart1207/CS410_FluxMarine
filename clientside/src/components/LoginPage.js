@@ -7,13 +7,16 @@ function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('users/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
-      if (response.ok) {
+      console.log(response)
+      if (response.status === 200) {
+        alert('login succesful');
         window.location.href = '/dashboard';
       } else {
         alert('Incorrect username or password');
@@ -22,6 +25,7 @@ function LoginPage() {
       console.error(error);
       alert('Error occurred while logging in');
     }
+    
   };
 
   return (
