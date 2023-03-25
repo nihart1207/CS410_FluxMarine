@@ -9,21 +9,19 @@ function LoginPage() {
     event.preventDefault();
     
     try {
-      const response = await fetch('users/api/login', {
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
-      console.log(response)
       if (response.status === 200) {
-        alert('login succesful');
-        window.location.href = '/dashboard';
+        //successful login
+        window.location.href = '/';
       } else {
-        alert('Incorrect username or password');
+        // error message for wrong password
       }
     } catch (error) {
-      console.error(error);
-      alert('Error occurred while logging in');
+      // error message for some issue
     }
     
   };

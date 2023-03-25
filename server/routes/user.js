@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-// Get a single user by email
-router.get('/:email', userController.getUserByEmail);
-router.post('/user', userController.createUser);
-router.post('/api/login', userController.checkLogin);
+
+router.post('/login', userController.checkLogin);
+router.post('/signup', userController.createUser);
+router.get('/users', userController.getAllUsers);
+
 
 module.exports = router;
