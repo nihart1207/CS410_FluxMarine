@@ -1,20 +1,25 @@
+require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const userRoutes = require('./routes/user');
+const supplierRoutes = require('./routes/supplier');
+const partRoutes = require('./routes/part');
+const stockRoutes = require('./routes/stocks');
 
-
-require("dotenv").config();
 
 const app = express();
 app.use(express.json());
 
-const userRoutes = require('./routes/user');
-
-app.use('/users', userRoutes);
 
 const port = 3000;
 const uri = process.env.MONGODB_CONNECTION_STRING
 
+
+app.use('/api', userRoutes);
+app.use('/api', supplierRoutes);
+app.use('/api', partRoutes);
+app.use('/api', stockRoutes);
 
 
 app.use(express.static(path.join(__dirname, '..', 'clientside', 'build')));
@@ -22,6 +27,7 @@ app.use(express.static(path.join(__dirname, '..', 'clientside', 'build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'clientside', 'build', 'index.html'));
 });
+
 
 
 mongoose.connect(uri, {

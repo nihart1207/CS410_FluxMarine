@@ -3,37 +3,39 @@ const User = require('../models/users');
 // Create a new user
 exports.createUser = async (req, res, next) => {
   try {
-    const { name, email, password, role } = req.body;
-    const user = new User({ name, email, password , role});
+    const {name, email, password} = req.body;
+    
+    const user = new User({ name, email, password });
     await user.save();
-    res.status(201).json({ message: 'User created successfully', user });
+    res.status(200);
+    // user created successfully
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });
+    // user already exists
   }
 };
 
 exports.checkLogin = async (req, res, next) => {
+
+  const user = req.body;
+  if (!user) {
+    return res.status(500).json({error: "user details missing"});
+  }
   
   try {
-    const user = await User.findOne({ email: req.body.username });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    if (user.password == req.body.password) {
-      console.log('passed')
-      return res.status(200).json({message: 'authorised'});
+    const resultFromDB = await User.matchPassword(user.username, user.password);
+    if (resultFromDB === "Correct") {
+      return res.status(200).json({message: "login successful"});
+    } else if (resultFromDB == "Wrong") {
+      return res.status(500).json({error: "wrong password"});
     } else {
-      return res.status(500);
+      return res.status(500).json({error: "user not found"});
     }
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });
   }
-
-
 }
 
 exports.getUserByEmail = async (req, res, next) => {
@@ -52,8 +54,8 @@ exports.getUserByEmail = async (req, res, next) => {
 // Get all users
 exports.getAllUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
-    res.status(200).json(users);
+    const user = await User.find();
+    res.status(200).json(user);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });
