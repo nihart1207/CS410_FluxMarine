@@ -48,7 +48,6 @@ userSchema.pre("save", function (next) {
 userSchema.static("changePassword", async function(email, password) {
   
     const user = await this.findOne({email});
-    if (!user) return 0;
 
     const salt = randomBytes(16).toString();
     const newPassword = createHmac('sha256', salt)
@@ -58,8 +57,6 @@ userSchema.static("changePassword", async function(email, password) {
     user.salt = salt;
     user.password = newPassword;
     await user.save();
-
-    return 1;
 });
 
 userSchema.static("matchPasswordAndGenerateToken", async function(email, password) {
