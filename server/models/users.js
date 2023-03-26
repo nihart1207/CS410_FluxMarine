@@ -64,7 +64,7 @@ userSchema.static("changePassword", async function(email, password) {
 
 userSchema.static("matchPasswordAndGenerateToken", async function(email, password) {
   const user = await this.findOne({email});
-  if (!user) return new Error("User Not Found");
+  if (!user) return null;
 
   const salt = user.salt;
   const hashedPassword = user.password;
@@ -77,7 +77,7 @@ userSchema.static("matchPasswordAndGenerateToken", async function(email, passwor
     const token = createTokenForUser(user); 
     return token;
   }
-  return new Error("Wrong Password");
+  return null;
 });
 
 const User = mongoose.model('User', userSchema);
