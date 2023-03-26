@@ -1,17 +1,27 @@
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { ChevronLeft as ChevronLeftIcon, Dashboard as DashboardIcon, Settings as SettingsIcon } from '@mui/icons-material';
-import { useState } from 'react';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import {
+  ChevronLeft as ChevronLeftIcon,
+  Dashboard as DashboardIcon,
+} from "@mui/icons-material";
+import { useState } from "react";
 
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#007bff',
+      main: "#009688",
     },
     secondary: {
-      main: '#6c757d',
+      main: "#6c757d",
     },
   },
 });
@@ -21,35 +31,35 @@ const drawerWidth = 240;
 const SidebarWrapper = styled(Drawer)(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
-  whiteSpace: 'nowrap',
-  transition: theme.transitions.create('width', {
+  whiteSpace: "nowrap",
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
   ...(open && {
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
   ...(!open && {
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    overflowX: 'hidden',
+    overflowX: "hidden",
     width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: theme.spacing(9) + 1,
     },
   }),
 }));
 
-const SidebarToolbar = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
+const SidebarToolbar = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
 }));
@@ -73,23 +83,25 @@ function Sidebar() {
         sx: {
           width: drawerWidth,
           ...(open && {
-            transition: theme => theme.transitions.create('width', {
-              easing: theme.transitions.easing.sharp,
-              duration: theme.transitions.duration.enteringScreen,
-            }),
+            transition: (theme) =>
+              theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+              }),
           }),
           ...(!open && {
-            transition: theme => theme.transitions.create('width', {
-              easing: theme.transitions.easing.sharp,
-              duration: theme.transitions.duration.leavingScreen,
-            }),
-            overflowX: 'hidden',
-            width: theme => theme.spacing(7) + 1,
-            [theme.breakpoints.up('sm')]: {
-              width: theme => theme.spacing(9) + 1,
+            transition: (theme) =>
+              theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+              }),
+            overflowX: "hidden",
+            width: (theme) => theme.spacing(7) + 1,
+            [theme.breakpoints.up("sm")]: {
+              width: (theme) => theme.spacing(9) + 1,
             },
           }),
-        }
+        },
       }}
     >
       <SidebarToolbar>
@@ -98,13 +110,12 @@ function Sidebar() {
         </IconButton>
       </SidebarToolbar>
       <List>
-        <ListItem button>
+        <ListItem>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
-        
       </List>
     </SidebarWrapper>
   );
