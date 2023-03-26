@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { createHmac, randomBytes } = require('crypto');
+const {createTokenForUser} = require('../services/authentication');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -44,9 +45,26 @@ userSchema.pre("save", function (next) {
   next();
 })
 
-userSchema.static("matchPassword", async function(email, password) {
+userSchema.static("changePassword", async function(email, password) {
+  
+    const user = await this.findOne({email});
+    if (!user) return 0;
+
+    const salt = randomBytes(16).toString();
+    const newPassword = createHmac('sha256', salt)
+    .update(password)
+    .digest('hex');
+
+    user.salt = salt;
+    user.password = newPassword;
+    await user.save();
+
+    return 1;
+});
+
+userSchema.static("matchPasswordAndGenerateToken", async function(email, password) {
   const user = await this.findOne({email});
-  if (!user) return "Not Found";
+  if (!user) return new Error("User Not Found");
 
   const salt = user.salt;
   const hashedPassword = user.password;
@@ -54,8 +72,12 @@ userSchema.static("matchPassword", async function(email, password) {
   .update(password)
   .digest('hex');
 
-  if (hashedPassword === userProvidedPassword) return "Correct";
-  return "Wrong"
+
+  if (hashedPassword === userProvidedPassword) {
+    const token = createTokenForUser(user); 
+    return token;
+  }
+  return new Error("Wrong Password");
 });
 
 const User = mongoose.model('User', userSchema);
