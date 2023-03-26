@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const partSchema = new mongoose.Schema({
-    partNumber: {
-        type: Number,
+
+      partName: {
+        type: String,
         required: true,
-        unique: true,
       },
   
       partDescription: {
