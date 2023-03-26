@@ -1,0 +1,32 @@
+<html lang="en">
+    <head>
+        <title>Barcode Scanner</title>
+        <script>
+            var barcode = '';
+            var interval;
+            document.addEventListener('keydown', function(e) {
+                if (interval)
+                    clearInterval(interval);
+                if (e.code == 'Enter') {
+                    if (barcode)
+                        handleBarcode(barcode);
+                    barcode = '';
+                    return;
+                }
+                if (e.key != 'Shift')
+                    barcode += e.key;
+                interval = setInterval(() => barcode = '', 20);
+            });
+            
+            function handleBarcode(scanned_barcode) {
+                document.querySelector('#last-barcode').innerHTML = scanned_barcode;
+            }
+
+        </script>
+    </head>
+    <body>
+        <h1>Barcode Scanner</h1>
+        <strong>Last Scanned Barcode</strong>
+        <div id="last-barcode"></div>
+    </body>
+</html>
