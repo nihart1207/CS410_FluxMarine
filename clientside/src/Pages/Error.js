@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 const RootBox = styled(Box)`
@@ -30,7 +30,13 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
+
 function ErrorPage() {
+  const navigate = useNavigate();
+
+  const handleGoBack = (event) => {
+    navigate('/');
+  }
   return (
     <RootBox>
       <TitleTypography variant="h1" gutterBottom>
@@ -43,7 +49,7 @@ function ErrorPage() {
         The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
       </DetailTypography>
       <StyledLink to="/" style={{ color: 'inherit' }}>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleGoBack}>
           Back to Home
         </Button>
       </StyledLink>
