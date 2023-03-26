@@ -8,6 +8,7 @@ const partRoutes = require('./routes/part');
 const stockRoutes = require('./routes/stocks');
 const authenticationMiddleware = require('./middleware/auth')
 const cookieParser = require('cookie-parser');
+
 const port = process.env.PORT || 3000;
 const uri = process.env.MONGODB_CONNECTION_STRING
 const app = express();
