@@ -12,8 +12,10 @@ function authenticationMiddleware(req, res, next) {
       req.user = payload;
       return next();
     } catch (err) {
-      return res.status(401).json({ message: 'Invalid token' });
+      //return res.status(401).json({ message: 'Invalid token' });
+      return next();
     }
+
   }
   
   module.exports = authenticationMiddleware;
