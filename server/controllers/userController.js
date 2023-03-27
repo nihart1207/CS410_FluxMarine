@@ -80,6 +80,7 @@ exports.deleteUserByEmail = async (req, res, next) => {
       return res.status(409).json({ error: "User cannot delete self" });
     }
 
+    await User.findOneAndDelete({email: email});
     return res.status(200).json({ message: "Successfully deleted user" });
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -96,17 +97,15 @@ exports.updateUserByEmail = async (req, res, next) => {
   const {email} = req.query;
   const {password, role, name} = req.body;
 
-  if(!name || !password || !email) {
-    return res.status(400).json({ error: "email to be deleted missing" });
+  if(!name && !password && !email) {
+    return res.status(400).json({ error: "email to be updated missing" });
   }
 
   if (!payload) {
     return res.status(401).json({ error: "user not authorized" });
   }
 
-  if (role && payload.role !== "ADMIN") {
-    return res.status(401).json({error : "user not authorized"});
-  }
+  
 
   try {
     const user = await User.findOne({email: email});
@@ -114,16 +113,26 @@ exports.updateUserByEmail = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
     if (payload.email === user.email) {
-      if (name) user.name == name;
+      if (name) await User.updateOne({email: email}, {name: name});
       if (password) {
         await User.changePassword(user.email ,password);
       }
+    } else {
+      if (password || name) {
+        return res.status(401).json({error: "user not authorized"});
+      }
+    }
+    
 
-      return res.status(200).json({message: "updated succesfully"});
-    } 
-    return res.status(401).json({error: "user not authorized"});
+    if (role && payload.role !== "ADMIN") {
+      return res.status(401).json({error : "user not authorized"});
+    }
+  
+    if (role) await User.updateOne({email: email} ,{role: role});
+
+    return res.status(200).json({message: "updated succesfully"});
+
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
