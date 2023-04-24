@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const partSchema = new mongoose.Schema({
+const partTypeSchema = new mongoose.Schema({
 
       partName: {
         type: String,
@@ -11,6 +11,10 @@ const partSchema = new mongoose.Schema({
           type: String,
           default: "",
       },
+      
+      partSupplier: {
+           type: String,
+      },
   
       partImageURL: {
         type: String,
@@ -18,5 +22,5 @@ const partSchema = new mongoose.Schema({
     }
   }, {timestamps: true});
 
-  const Part = mongoose.model('Part', partSchema);
+  const Part = mongoose.model('PartType', partTypeSchema);
   module.exports = Part;
