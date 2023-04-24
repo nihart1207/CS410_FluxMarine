@@ -5,6 +5,10 @@ const supplierSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    
+    supplierID: {
+        type: Number
+    },
 
     email: {
       type :String,
