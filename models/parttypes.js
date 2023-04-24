@@ -23,4 +23,4 @@ const partTypeSchema = new mongoose.Schema({
   }, {timestamps: true});
 
   const Part = mongoose.model('PartType', partTypeSchema);
-  module.exports = Part;
+  module.exports = PartType;
