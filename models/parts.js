@@ -21,8 +21,12 @@ const partSchema = new mongoose.Schema({
         type: String,
       },
 
-      QCStatus: {
+      qcstatus: {
         type: Boolean,
+      },
+      
+      notes: {
+        type: String,
       },
  
   }, {timestamps: true});
