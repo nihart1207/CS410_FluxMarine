@@ -6,31 +6,47 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import ProductsTable from "./ProductsTable";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { DatePicker } from "@mui/lab";
+import UsersTable from "./UsersTable";
 
-export default function Content() {  
-    //for products table
-    const products = [
-      {
-        id: "1",
-        name: "Electric Motor",
-        description: "It is an electric motor",
-      },
-      {
-        id: "2",
-        name: "Hex Nut",
-        description: "It is a Hex nut",
-      },
-      {
-        id: "3",
-        name: "Axle",
-        description: "It is an Axle",
-      },
-    ];
+export default function UsersContent() {
+  const [all_users, setAllUsers] = React.useState([]);
+
+  const [users, setUsers] = React.useState([]);
+
+React.useEffect(() => {
+  fetch('/api/users', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setAllUsers(data);
+      setUsers(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}, []);
+    
+  
   
     const [selectedDate, setSelectedDate] = React.useState(null);
     const [calendarOpen, setCalendarOpen] = React.useState(false);
-  
+    const [searchName , setSearchName] = React.useState('');
+
     const handleCalendarOpen = () => {
       setCalendarOpen(true);
     };
@@ -43,8 +59,22 @@ export default function Content() {
       setSelectedDate(date);
       handleCalendarClose();
     };
+
+    const handleSearchNameChange = (event) => {
+      const {value} = event.target;
+      setSearchName(value)
+      if (value) {
+        const filteredProducts = Object.values(all_users).filter((user) =>
+        user.name.toLowerCase().includes(value.toLowerCase())
+        );
+        setUsers(filteredProducts);
+      } else {
+        setUsers(all_users);
+      }
+    };
+
   
-  // for products table 
+  // for users table 
   return (
     <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden" }}>
       <AppBar
@@ -61,19 +91,21 @@ export default function Content() {
             <Grid item xs>
               <TextField
                 fullWidth
-                placeholder="Search by Product ID"
+                placeholder="Search by user Name"
                 InputProps={{
                   disableUnderline: true,
                   sx: { fontSize: "default" },
                 }}
                 variant="standard"
+                value={searchName}
+                onChange={handleSearchNameChange}
               />
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
       <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
-        <ProductsTable products={products} />
+        <UsersTable users={users} />
       </Typography>
     </Paper>
   );

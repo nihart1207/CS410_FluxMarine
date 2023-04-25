@@ -21,11 +21,11 @@ const StyledStatusCell = styled(TableCell)`
   border: none;
   background-color: ${(props) => {
     switch (props.status) {
-      case "Received":
+      case "RECEIVED":
         return "#4CAF50"; // Green
-      case "Inventory":
+      case "INVENTORY":
         return "#FFC107"; // Amber
-      case "Assembly":
+      case "ASSEMBLY":
         return "#F44336"; // Red
       default:
         return "inherit";
@@ -46,6 +46,15 @@ const StyledTableRow = styled(TableRow)`
   background-color: ${(props) => (props.odd ? "#f5f5f5" : "inherit")};
 `;
 
+const date = (isoDate) => {
+  const date = new Date(isoDate);
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // add 1 to adjust for zero-based index
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`; // output: 26/3/2023
+}
+
 function OrdersTable({ orders }) {
   return (
     <StyledTableContainer component={Paper}>
@@ -55,19 +64,17 @@ function OrdersTable({ orders }) {
             <StyledHeaderCell>Order ID</StyledHeaderCell>
             <StyledHeaderCell>Date</StyledHeaderCell>
             <StyledHeaderCell>Supplier</StyledHeaderCell>
-            <StyledHeaderCell>Part Number</StyledHeaderCell>
-            <StyledHeaderCell>Description</StyledHeaderCell>
+            <StyledHeaderCell>Part Name</StyledHeaderCell>
             <StyledHeaderCell>Status</StyledHeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {orders.map((order, index) => (
             <StyledTableRow key={order.id} odd={index % 2 === 0}>
-              <TableCell>{order.id}</TableCell>
-              <TableCell>{order.date}</TableCell>
-              <TableCell>{order.supplier}</TableCell>
-              <TableCell>{order.PartNumber}</TableCell>
-              <TableCell>{order.description}</TableCell>
+              <TableCell>{order._id}</TableCell>
+              <TableCell>{date(order.createdAt)}</TableCell>
+              <TableCell>{order.supplier.supplierName}</TableCell>
+              <TableCell>{order.part.partName}</TableCell>
               <StyledStatusCell status={order.status}>
                 {order.status}
               </StyledStatusCell>

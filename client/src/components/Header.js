@@ -12,7 +12,9 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import AddIcon from "@mui/icons-material/Add";
+import AddIcon from "@mui/icons-material/Add"
+import Popover from "@mui/material/Popover";
+
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -43,13 +45,17 @@ function Header(props) {
               </Tooltip>
             </Grid>
             <Grid item>
-              <IconButton color="inherit" sx={{ p: 0.5 }}>
+              <IconButton color="inherit" sx={{ p: 0.5 }} >
                 <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
               </IconButton>
+              
+
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
+
+
       <AppBar
         component="div"
         color="primary"
@@ -57,11 +63,12 @@ function Header(props) {
         elevation={0}
         sx={{ zIndex: 0 }}
       >
+
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h5" component="h1">
-                Orders
+              {props.name}
               </Typography>
             </Grid>
             <Grid item>
@@ -83,24 +90,7 @@ function Header(props) {
               >
                 Export to Excel
               </Button>
-              <Button
-                sx={{
-                  borderColor: lightColor,
-                  bgcolor: "#fff",
-                  color: "#6A5ACD",
-                  "&:hover": {
-                    color: "#fff",
-                    bgcolor: "#6A5ACD",
-                  },
-                  mr: 2, // Add spacing between buttons
-                }}
-                variant="outlined"
-                color="inherit"
-                size="large"
-                startIcon={<CloudUploadIcon />}
-              >
-                Import Orders
-              </Button>
+              
               <Button
                 sx={{
                   borderColor: lightColor,
@@ -116,7 +106,7 @@ function Header(props) {
                 size="large"
                 startIcon={<AddIcon />}
               >
-                New Orders
+                New {props.name}
               </Button>
             </Grid>
           </Grid>

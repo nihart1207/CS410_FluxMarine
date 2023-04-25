@@ -27,18 +27,18 @@ function ProductsTable({ products }) {
       <Table>
         <TableHead>
           <TableRow>
-            <StyledHeaderCell>Product ID</StyledHeaderCell>
-            <StyledHeaderCell>Product Name</StyledHeaderCell>
-            <StyledHeaderCell>Product Description</StyledHeaderCell>
+            <StyledHeaderCell>Part ID</StyledHeaderCell>
+            <StyledHeaderCell>Part Name</StyledHeaderCell>
+            <StyledHeaderCell>Part Description</StyledHeaderCell>
             {/* <StyledHeaderCell>Product Image URL</StyledHeaderCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
           {products.map((product, index) => (
             <StyledTableRow key={product.id} odd={index % 2 === 0}>
-              <TableCell>{product.id}</TableCell>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.description}</TableCell>
+              <TableCell>{product._id}</TableCell>
+              <TableCell>{product.partName}</TableCell>
+              <TableCell>{product.partDescription}</TableCell>
               {/* <TableCell>{product.url}</TableCell> */}
             </StyledTableRow>
           ))}

@@ -9,7 +9,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
@@ -20,15 +19,10 @@ const categories = [
     id: "Dashboard",
     children: [
       { id: "Dashboard", icon: <DashboardOutlinedIcon /> },
-      { id: "In stock", icon: <InventoryOutlinedIcon /> },
-      { id: "Products", icon: <Inventory2OutlinedIcon /> },
       { id: "Orders", icon: <AddShoppingCartOutlinedIcon /> },
+      { id: "Parts", icon: <Inventory2OutlinedIcon /> },
       { id: "Suppliers", icon: <LocalShippingOutlinedIcon /> },
-
-      {
-        id: "Users",
-        icon: <GroupAddOutlinedIcon />,
-      },
+      { id: "Users", icon: <GroupAddOutlinedIcon />,},
     ],
   },
 ];
