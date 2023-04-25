@@ -29,17 +29,17 @@ function UsersTable({ users }) {
           <TableRow>
             <StyledHeaderCell>User ID</StyledHeaderCell>
             <StyledHeaderCell>User Name</StyledHeaderCell>
-            <StyledHeaderCell>User Role</StyledHeaderCell>
             <StyledHeaderCell>Email</StyledHeaderCell>
+            <StyledHeaderCell>User Role</StyledHeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {users.map((user, index) => (
             <StyledTableRow key={user.id} odd={index % 2 === 0}>
-              <TableCell>{user.id}</TableCell>
+              <TableCell>{user._id}</TableCell>
               <TableCell>{user.name}</TableCell>
-              <TableCell>{user.role}</TableCell>
               <TableCell>{user.email}</TableCell>
+              <TableCell>{user.role}</TableCell>
             </StyledTableRow>
           ))}
         </TableBody>

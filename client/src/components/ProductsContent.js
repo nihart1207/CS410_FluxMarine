@@ -83,7 +83,7 @@ export default function ProductsContent() {
             <Grid item xs>
               <TextField
                 fullWidth
-                placeholder="Search by Product Name"
+                placeholder="Search by Part Name"
                 InputProps={{
                   disableUnderline: true,
                   sx: { fontSize: "default" },

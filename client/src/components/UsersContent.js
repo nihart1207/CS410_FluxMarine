@@ -15,33 +15,38 @@ import { DatePicker } from "@mui/lab";
 import UsersTable from "./UsersTable";
 
 export default function UsersContent() {
-  
-    // for users table
-    const users = [
-      {
-        id: "1",
-        name: "John Doe",
-        role: "Administrator",
-        email: "jon.doe@fluxmarine.com",
-      },
-      {
-        id: "2",
-        name: "Jane Doe",
-        role: "Editor",
-        email: "jane.doe@fluxmarine.com",
-      },
-      {
-        id: "3",
-        name: "Bob Smith",
-        role: "Viewer",
-        email: "bob.smith@fluxmarine.com",
-      },
-    ];
+  const [all_users, setAllUsers] = React.useState([]);
+
+  const [users, setUsers] = React.useState([]);
+
+React.useEffect(() => {
+  fetch('/api/users', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setAllUsers(data);
+      setUsers(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}, []);
+    
   
   
     const [selectedDate, setSelectedDate] = React.useState(null);
     const [calendarOpen, setCalendarOpen] = React.useState(false);
-  
+    const [searchName , setSearchName] = React.useState('');
+
     const handleCalendarOpen = () => {
       setCalendarOpen(true);
     };
@@ -54,6 +59,20 @@ export default function UsersContent() {
       setSelectedDate(date);
       handleCalendarClose();
     };
+
+    const handleSearchNameChange = (event) => {
+      const {value} = event.target;
+      setSearchName(value)
+      if (value) {
+        const filteredProducts = Object.values(all_users).filter((user) =>
+        user.name.toLowerCase().includes(value.toLowerCase())
+        );
+        setUsers(filteredProducts);
+      } else {
+        setUsers(all_users);
+      }
+    };
+
   
   // for users table 
   return (
@@ -72,57 +91,15 @@ export default function UsersContent() {
             <Grid item xs>
               <TextField
                 fullWidth
-                placeholder="Search by user ID"
+                placeholder="Search by user Name"
                 InputProps={{
                   disableUnderline: true,
                   sx: { fontSize: "default" },
                 }}
                 variant="standard"
+                value={searchName}
+                onChange={handleSearchNameChange}
               />
-            </Grid>
-            <Grid item>
-              <IconButton onClick={handleCalendarOpen}>
-                <CalendarTodayIcon />
-              </IconButton>
-              <DatePicker
-                open={calendarOpen}
-                onOpen={handleCalendarOpen}
-                onClose={handleCalendarClose}
-                value={selectedDate}
-                onChange={handleDateChange}
-                renderInput={(params) => (
-                  <TextField {...params} placeholder="Select date" />
-                )}
-                sx={{ zIndex: 2000 }} // Ensure calendar popoveris on top of other elements
-              />
-            </Grid>
-            <Grid item>
-              <Select
-                variant="standard"
-                value=""
-                displayEmpty
-                IconComponent={ArrowDropDownIcon}
-              >
-                <MenuItem value="" disabled>
-                  Roles
-                </MenuItem>
-                <MenuItem value="admin">Admin</MenuItem>
-                <MenuItem value="user">User</MenuItem>
-              </Select>
-            </Grid>
-            <Grid item>
-              <Select
-                variant="standard"
-                value=""
-                displayEmpty
-                IconComponent={ArrowDropDownIcon}
-              >
-                <MenuItem value="" disabled>
-                  Filter
-                </MenuItem>
-                <MenuItem value="newest">Newest</MenuItem>
-                <MenuItem value="oldest">Oldest</MenuItem>
-              </Select>
             </Grid>
           </Grid>
         </Toolbar>

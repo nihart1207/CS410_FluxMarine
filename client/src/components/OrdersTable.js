@@ -55,8 +55,7 @@ function OrdersTable({ orders }) {
             <StyledHeaderCell>Order ID</StyledHeaderCell>
             <StyledHeaderCell>Date</StyledHeaderCell>
             <StyledHeaderCell>Supplier</StyledHeaderCell>
-            <StyledHeaderCell>Part Number</StyledHeaderCell>
-            <StyledHeaderCell>Description</StyledHeaderCell>
+            <StyledHeaderCell>Part Name</StyledHeaderCell>
             <StyledHeaderCell>Status</StyledHeaderCell>
           </TableRow>
         </TableHead>
@@ -67,7 +66,6 @@ function OrdersTable({ orders }) {
               <TableCell>{order.date}</TableCell>
               <TableCell>{order.supplier}</TableCell>
               <TableCell>{order.PartNumber}</TableCell>
-              <TableCell>{order.description}</TableCell>
               <StyledStatusCell status={order.status}>
                 {order.status}
               </StyledStatusCell>

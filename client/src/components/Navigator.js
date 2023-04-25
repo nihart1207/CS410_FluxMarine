@@ -19,14 +19,10 @@ const categories = [
     id: "Dashboard",
     children: [
       { id: "Dashboard", icon: <DashboardOutlinedIcon /> },
-      { id: "Products", icon: <Inventory2OutlinedIcon /> },
       { id: "Orders", icon: <AddShoppingCartOutlinedIcon /> },
+      { id: "Parts", icon: <Inventory2OutlinedIcon /> },
       { id: "Suppliers", icon: <LocalShippingOutlinedIcon /> },
-
-      {
-        id: "Users",
-        icon: <GroupAddOutlinedIcon />,
-      },
+      { id: "Users", icon: <GroupAddOutlinedIcon />,},
     ],
   },
 ];

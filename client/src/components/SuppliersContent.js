@@ -98,22 +98,6 @@ export default function SuppliersContent() {
                   variant="standard"
                 />
               </Grid>
-              <Grid item>
-                <IconButton onClick={handleCalendarOpen}>
-                  <CalendarTodayIcon />
-                </IconButton>
-                <DatePicker
-                  open={calendarOpen}
-                  onOpen={handleCalendarOpen}
-                  onClose={handleCalendarClose}
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  renderInput={(params) => (
-                    <TextField {...params} placeholder="Select date" />
-                  )}
-                  sx={{ zIndex: 2000 }} // Ensure calendar popoveris on top of other elements
-                />
-              </Grid>
             </Grid>
           </Toolbar>
         </AppBar>

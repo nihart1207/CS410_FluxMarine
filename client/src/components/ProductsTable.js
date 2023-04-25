@@ -21,20 +21,20 @@ const StyledTableRow = styled(TableRow)`
   background-color: ${(props) => (props.odd ? "#f5f5f5" : "inherit")};
 `;
 
-function ProductsTable({ products }) {
+function ProductsTable({ parts }) {
   return (
     <StyledTableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <StyledHeaderCell>Product ID</StyledHeaderCell>
-            <StyledHeaderCell>Product Name</StyledHeaderCell>
-            <StyledHeaderCell>Product Description</StyledHeaderCell>
+            <StyledHeaderCell>Part ID</StyledHeaderCell>
+            <StyledHeaderCell>Part Name</StyledHeaderCell>
+            <StyledHeaderCell>Part Description</StyledHeaderCell>
             {/* <StyledHeaderCell>Product Image URL</StyledHeaderCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
-          {products.map((product, index) => (
+          {parts.map((product, index) => (
             <StyledTableRow key={product._id} odd={index % 2 === 0}>
               <TableCell>{product._id}</TableCell>
               <TableCell>{product.partName}</TableCell>
