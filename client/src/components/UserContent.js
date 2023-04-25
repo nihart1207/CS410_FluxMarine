@@ -11,57 +11,51 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import OrdersTable from "./OrdersTable";
 import { DatePicker } from "@mui/lab";
-
+import UsersTable from "./UsersTable";
 
 export default function Content() {
-  const orders = [
-    {
-      id: "001",
-      date: "2023-03-01",
-      supplier: "ABC Inc.",
-      PartNumber: "Online Store",
-      description: "New York",
-      status: "Received",
-    },
-    {
-      id: "002",
-      date: "2023-03-03",
-      supplier: "XYZ Corp",
-      PartNumber: "Retail Store",
-      description: "Los Angeles",
-      status: "Inventory",
-    },
-    {
-      id: "003",
-      date: "2023-03-05",
-      supplier: "LMN LLC",
-      PartNumber: "Wholesale",
-      description: "Chicago",
-      status: "Assembly",
-    },
-  ];
-
-
-  const [selectedDate, setSelectedDate] = React.useState(null);
-  const [calendarOpen, setCalendarOpen] = React.useState(false);
-
-  const handleCalendarOpen = () => {
-    setCalendarOpen(true);
-  };
-
-  const handleCalendarClose = () => {
-    setCalendarOpen(false);
-  };
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    handleCalendarClose();
-  };
-
-
-  // For Orders table
+  
+    // for users table
+    const users = [
+      {
+        id: "1",
+        name: "John Doe",
+        role: "Administrator",
+        email: "jon.doe@fluxmarine.com",
+      },
+      {
+        id: "2",
+        name: "Jane Doe",
+        role: "Editor",
+        email: "jane.doe@fluxmarine.com",
+      },
+      {
+        id: "3",
+        name: "Bob Smith",
+        role: "Viewer",
+        email: "bob.smith@fluxmarine.com",
+      },
+    ];
+  
+  
+    const [selectedDate, setSelectedDate] = React.useState(null);
+    const [calendarOpen, setCalendarOpen] = React.useState(false);
+  
+    const handleCalendarOpen = () => {
+      setCalendarOpen(true);
+    };
+  
+    const handleCalendarClose = () => {
+      setCalendarOpen(false);
+    };
+  
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+      handleCalendarClose();
+    };
+  
+  // for users table 
   return (
     <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden" }}>
       <AppBar
@@ -78,7 +72,7 @@ export default function Content() {
             <Grid item xs>
               <TextField
                 fullWidth
-                placeholder="Search by order ID"
+                placeholder="Search by user ID"
                 InputProps={{
                   disableUnderline: true,
                   sx: { fontSize: "default" },
@@ -101,7 +95,21 @@ export default function Content() {
                 )}
                 sx={{ zIndex: 2000 }} // Ensure calendar popoveris on top of other elements
               />
-          </Grid>
+            </Grid>
+            <Grid item>
+              <Select
+                variant="standard"
+                value=""
+                displayEmpty
+                IconComponent={ArrowDropDownIcon}
+              >
+                <MenuItem value="" disabled>
+                  Roles
+                </MenuItem>
+                <MenuItem value="admin">Admin</MenuItem>
+                <MenuItem value="user">User</MenuItem>
+              </Select>
+            </Grid>
             <Grid item>
               <Select
                 variant="standard"
@@ -120,10 +128,9 @@ export default function Content() {
         </Toolbar>
       </AppBar>
       <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
-        <OrdersTable orders={orders} />
+        <UsersTable users={users} />
       </Typography>
     </Paper>
   );
-}
-
-
+  }
+  
