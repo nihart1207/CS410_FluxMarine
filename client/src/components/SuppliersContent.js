@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import { DatePicker } from "@mui/lab";
 import SuppliersTable from "./SuppliersTable";
 
-export default function Content() {
+export default function SuppliersContent() {
   
     // for suppliers table 
     const suppliers = [

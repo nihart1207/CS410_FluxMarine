@@ -35,10 +35,10 @@ function ProductsTable({ products }) {
         </TableHead>
         <TableBody>
           {products.map((product, index) => (
-            <StyledTableRow key={product.id} odd={index % 2 === 0}>
-              <TableCell>{product.id}</TableCell>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.description}</TableCell>
+            <StyledTableRow key={product._id} odd={index % 2 === 0}>
+              <TableCell>{product._id}</TableCell>
+              <TableCell>{product.partName}</TableCell>
+              <TableCell>{product.partDescription}</TableCell>
               {/* <TableCell>{product.url}</TableCell> */}
             </StyledTableRow>
           ))}

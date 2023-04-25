@@ -3,36 +3,47 @@ const Part = require('../models/parts');
 exports.getAllParts = async (req, res, next) => {
     try {
       const parts = await Part.find();
-      res.status(200).json(parts);
+      return res.status(200).json(parts);
     } catch (err) {
-      res.status(500).json({ error: err });
+      return res.status(500).json({ error: err });
     }
 };
+
+exports.getPartByName = async (req, res, next) => {
+  try {
+    const partName = req.query.partName;
+    const parts = await Part.find({partName: partName});
+    return res.status(200).json(parts);
+  } catch (err) {
+    return res.status(500).json({ error: err });
+  }
+}
 
 exports.addNewPart = async (req, res, next) => {
   if (req.user.role === "USER") res.status(401).json({message : "unauthorized to add"});
 
   try {
     const {partName, partDescription} = req.body;
-    const part = new Part({ partNumber, partDescription });
+    if (!partName) {
+      return res.status(400).json({message: "partName missing"});
+    }
+    const part = new Part({ partName, partDescription });
     await part.save();
-
-    res.status(200).json({message: "succesfully added new part"});
+    return res.status(200).json({message: "succesfully added new part"});
   } catch (err) {
-    res.status(500).json({ error: err });
+    return res.status(500).json({ error: err });
   }
 };
 
 exports.deletePartById = async (req, res, next) => {
-  if (req.user.role === "USER") res.status(401).json({message : "unauthorized to add"});
+  if (req.user.role === "USER") res.status(401).json({message : "unauthorized to delete"});
 
   try {
     const {_id} = req.params;
-    const part = await Part.findById(_id);
-    await part.remove();
-    res.status(200).json({message: "succesfully removed part"});
+    await Part.findOneAndDelete({_id: _id});
+    return res.status(200).json({message: "succesfully removed part"});
   } catch (err) {
-    res.status(500).json({error: err.message});
+    return res.status(500).json({error: err.message});
   }
 };
 
@@ -40,9 +51,9 @@ exports.getPartById = async (req, res, next) => {
   try {
     const {_id} = req.params;
     const part = await Part.findById(_id);
-    res.status(200).json(part);
+    return res.status(200).json(part);
   } catch (err) {
-    res.status(500).json({error: err.message});
+    return res.status(500).json({error: err.message});
   }
 };
 
@@ -59,10 +70,8 @@ exports.updatePartById = async (req, res, next) => {
     if (partDescription) part.partDescription = partDescription;
 
     await part.save();
-    res.status(200).json({message: "succesfully updated"});
+    return res.status(200).json({message: "succesfully updated"});
   } catch (error) {
-    res.status(500).json({error: error.message});
+    return res.status(500).json({error: error.message});
   }
-
-
 };

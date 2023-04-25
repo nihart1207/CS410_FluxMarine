@@ -32,7 +32,6 @@ exports.checkLogin = async (req, res, next) => {
 
   const {user} = req.body;
   const {username, password} = req.body;
-  console.log("api/login touched")
   if (user) {
     return res.status(403).json({error: "user already loggedin"});
   }
@@ -45,7 +44,6 @@ exports.checkLogin = async (req, res, next) => {
     const token = await User.matchPasswordAndGenerateToken(username, password); 
 
     if (!token) return res.status(401).json({message: "Wrong credentials"});
-    console.log(username + " succesfully logged in");
     return res.cookie("token", token).status(200).json({message:"Log in succesful"});
   } catch (err) {
     return res.status(500).json({ error: err.message });

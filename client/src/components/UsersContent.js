@@ -14,7 +14,7 @@ import Select from "@mui/material/Select";
 import { DatePicker } from "@mui/lab";
 import UsersTable from "./UsersTable";
 
-export default function Content() {
+export default function UsersContent() {
   
     // for users table
     const users = [

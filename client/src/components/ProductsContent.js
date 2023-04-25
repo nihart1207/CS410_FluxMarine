@@ -8,28 +8,37 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import ProductsTable from "./ProductsTable";
 
-export default function Content() {  
+export default function ProductsContent() {  
     //for products table
-    const products = [
-      {
-        id: "1",
-        name: "Electric Motor",
-        description: "It is an electric motor",
+    const [all_products, setAllProducts] = React.useState([]);
+
+    const [products, setProducts] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('/api/parts', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
       },
-      {
-        id: "2",
-        name: "Hex Nut",
-        description: "It is a Hex nut",
-      },
-      {
-        id: "3",
-        name: "Axle",
-        description: "It is an Axle",
-      },
-    ];
-  
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setAllProducts(data);
+        setProducts(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
+
     const [selectedDate, setSelectedDate] = React.useState(null);
     const [calendarOpen, setCalendarOpen] = React.useState(false);
+    const [searchName , setSearchName] = React.useState('');
   
     const handleCalendarOpen = () => {
       setCalendarOpen(true);
@@ -42,6 +51,19 @@ export default function Content() {
     const handleDateChange = (date) => {
       setSelectedDate(date);
       handleCalendarClose();
+    };
+
+    const handleNameChange = (event) => {
+      const {value} = event.target;
+      setSearchName(value)
+      if (value) {
+        const filteredProducts = Object.values(all_products).filter((product) =>
+        product.partName.toLowerCase().includes(value.toLowerCase())
+        );
+        setProducts(filteredProducts);
+      } else {
+        setProducts(all_products);
+      }
     };
   
   // for products table 
@@ -61,12 +83,14 @@ export default function Content() {
             <Grid item xs>
               <TextField
                 fullWidth
-                placeholder="Search by Product ID"
+                placeholder="Search by Product Name"
                 InputProps={{
                   disableUnderline: true,
                   sx: { fontSize: "default" },
                 }}
                 variant="standard"
+                value={searchName}
+                onChange={handleNameChange}
               />
             </Grid>
           </Grid>
@@ -77,5 +101,4 @@ export default function Content() {
       </Typography>
     </Paper>
   );
-  }
-  
+}

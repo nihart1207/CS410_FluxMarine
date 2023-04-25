@@ -8,6 +8,10 @@ import Link from "@mui/material/Link";
 import Navigator from "./Navigator";
 import Content from "./Content";
 import Header from "./Header";
+import ProuductsContent from "./ProductsContent";
+import SuppliersContent from "./SuppliersContent";
+import UsersContent from "./UsersContent";
+import ProductsContent from "./ProductsContent";
 
 function Copyright() {
   return (
@@ -206,9 +210,12 @@ export default function Paperbase() {
 
             
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}> 
-            
-            
-            <Content />
+          
+          {content === "Users" ? <UsersContent/> :
+          content === "Products" ? <ProductsContent/> :
+          content === "Suppliers" ? <SuppliersContent/> :
+          <Content/>}
+           
           </Box>
 
 
