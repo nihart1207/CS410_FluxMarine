@@ -14,29 +14,36 @@ import SuppliersTable from "./SuppliersTable";
 export default function SuppliersContent() {
   
     // for suppliers table 
-    const suppliers = [
-        {
-          id: "1",
-          name: "Walmart",
-          contact: "0000000000",
-          email: "sam@walmart.com",
-        },
-        {
-          id: "2",
-          name: "Krogers",
-          contact: "1111111111",
-          email: "jon@krogers.com",
-        },
-        {
-          id: "3",
-          name: "Target",
-          contact: "2222222222",
-          email: "will@target.com",
-        },
-      ];
+    const [all_suppliers, setAllSuppliers] = React.useState([]);
+
+    const [suppliers, setSuppliers] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('/api/suppliers', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setAllSuppliers(data);
+        setSuppliers(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
+    
     
     const [selectedDate, setSelectedDate] = React.useState(null);
     const [calendarOpen, setCalendarOpen] = React.useState(false);
+    const [searchName , setSearchName] = React.useState('');
   
     const handleCalendarOpen = () => {
       setCalendarOpen(true);
@@ -49,6 +56,19 @@ export default function SuppliersContent() {
     const handleDateChange = (date) => {
       setSelectedDate(date);
       handleCalendarClose();
+    };
+
+    const handleSearchNameChange = (event) => {
+      const {value} = event.target;
+      setSearchName(value)
+      if (value) {
+        const filteredProducts = Object.values(all_suppliers).filter((product) =>
+        product.supplierName.toLowerCase().includes(value.toLowerCase())
+        );
+        setSuppliers(filteredProducts);
+      } else {
+        setSuppliers(all_suppliers);
+      }
     };
   
   // For Suppliers table 
@@ -68,11 +88,13 @@ export default function SuppliersContent() {
               <Grid item xs>
                 <TextField
                   fullWidth
-                  placeholder="Search by Supplier ID"
+                  placeholder="Search by Supplier Name"
                   InputProps={{
                     disableUnderline: true,
                     sx: { fontSize: "default" },
                   }}
+                  value={searchName}
+                  onChange={handleSearchNameChange}
                   variant="standard"
                 />
               </Grid>

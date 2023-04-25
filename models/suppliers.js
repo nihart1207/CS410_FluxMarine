@@ -6,10 +6,6 @@ const supplierSchema = new mongoose.Schema({
         required: true,
     },
     
-    supplierID: {
-        type: Number
-    },
-
     email: {
       type :String,
       default: ""
