@@ -35,23 +35,10 @@ export default function ProductsContent() {
         console.error('Error:', error);
       });
   }, []);
-
-    const [selectedDate, setSelectedDate] = React.useState(null);
-    const [calendarOpen, setCalendarOpen] = React.useState(false);
+  
     const [searchName , setSearchName] = React.useState('');
   
-    const handleCalendarOpen = () => {
-      setCalendarOpen(true);
-    };
-  
-    const handleCalendarClose = () => {
-      setCalendarOpen(false);
-    };
-  
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-      handleCalendarClose();
-    };
+    
 
     const handleNameChange = (event) => {
       const {value} = event.target;

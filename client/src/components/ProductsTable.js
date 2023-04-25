@@ -21,7 +21,7 @@ const StyledTableRow = styled(TableRow)`
   background-color: ${(props) => (props.odd ? "#f5f5f5" : "inherit")};
 `;
 
-function ProductsTable({ parts }) {
+function ProductsTable({ products }) {
   return (
     <StyledTableContainer component={Paper}>
       <Table>
@@ -34,8 +34,8 @@ function ProductsTable({ parts }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {parts.map((product, index) => (
-            <StyledTableRow key={product._id} odd={index % 2 === 0}>
+          {products.map((product, index) => (
+            <StyledTableRow key={product.id} odd={index % 2 === 0}>
               <TableCell>{product._id}</TableCell>
               <TableCell>{product.partName}</TableCell>
               <TableCell>{product.partDescription}</TableCell>

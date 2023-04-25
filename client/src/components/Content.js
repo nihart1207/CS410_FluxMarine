@@ -16,36 +16,36 @@ import { DatePicker } from "@mui/lab";
 
 
 export default function Content() {
-  const orders = [
-    {
-      id: "001",
-      date: "2023-03-01",
-      supplier: "ABC Inc.",
-      PartNumber: "Online Store",
-      description: "New York",
-      status: "Received",
-    },
-    {
-      id: "002",
-      date: "2023-03-03",
-      supplier: "XYZ Corp",
-      PartNumber: "Retail Store",
-      description: "Los Angeles",
-      status: "Inventory",
-    },
-    {
-      id: "003",
-      date: "2023-03-05",
-      supplier: "LMN LLC",
-      PartNumber: "Wholesale",
-      description: "Chicago",
-      status: "Assembly",
-    },
-  ];
+  const [all_orders, setAllOrders] = React.useState([]);
+
+    const [orders, setOrders] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('/api/stocks', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setAllOrders(data);
+        setOrders(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
 
 
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
+  const [searchId, setSearchId] = React.useState("");
 
   const handleCalendarOpen = () => {
     setCalendarOpen(true);
@@ -58,6 +58,31 @@ export default function Content() {
   const handleDateChange = (date) => {
     setSelectedDate(date);
     handleCalendarClose();
+  };
+
+  const handleIdChange = (event) => {
+    const {value} = event.target;
+    setSearchId(value)
+    if (value) {
+      const filteredProducts = Object.values(all_orders).filter((product) =>
+      product._id.toLowerCase().includes(value.toLowerCase())
+      );
+      setOrders(filteredProducts);
+    } else {
+      setOrders(all_orders);
+    }
+  };
+
+  const handleStatusFilterChange = (event) => {
+    const { value } = event.target;
+    if (value === "") {
+      setOrders(all_orders);
+    } else {
+      const filteredProducts = Object.values(all_orders).filter(
+        (product) => product.status.includes(value)
+      );
+      setOrders(filteredProducts);
+    }
   };
   
 
@@ -83,9 +108,13 @@ export default function Content() {
                   disableUnderline: true,
                   sx: { fontSize: "default" },
                 }}
+                value={searchId}
+                onChange={handleIdChange}
                 variant="standard"
               />
             </Grid>
+            
+            
             <Grid item>
               <IconButton onClick={handleCalendarOpen}>
                 <CalendarTodayIcon />
@@ -101,20 +130,23 @@ export default function Content() {
                 )}
                 sx={{ zIndex: 2000 }} // Ensure calendar popoveris on top of other elements
               />
-          </Grid>
+            </Grid>
+            
+
             <Grid item>
               <Select
                 variant="standard"
                 value=""
                 displayEmpty
                 IconComponent={ArrowDropDownIcon}
-              >
-                <MenuItem value="" disabled>
-                  Filter
-                </MenuItem>
-                <MenuItem value="newest">Newest</MenuItem>
-                <MenuItem value="oldest">Oldest</MenuItem>
+                onChange={handleStatusFilterChange}
+                >
+                <MenuItem value="" >Filter</MenuItem>
+                <MenuItem value="INVENTORY">Inventory</MenuItem>
+                <MenuItem value="RECEIVED">Received</MenuItem>
+                <MenuItem value="ASSEMBLY">Assembly</MenuItem>
               </Select>
+
             </Grid>
           </Grid>
         </Toolbar>

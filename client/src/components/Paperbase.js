@@ -172,7 +172,7 @@ theme = {
 const drawerWidth = 256;
 
 export default function Paperbase() {
-  const [content, setContent] = React.useState("");
+  const [content, setContent] = React.useState("Orders");
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -206,16 +206,14 @@ export default function Paperbase() {
 
 
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <Header onDrawerToggle={handleDrawerToggle} />
+          <Header onDrawerToggle={handleDrawerToggle} name={content}/>
 
             
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}> 
-          
           {content === "Users" ? <UsersContent/> :
-          content === "Products" ? <ProductsContent/> :
+          content === "Parts" ? <ProductsContent/> :
           content === "Suppliers" ? <SuppliersContent/> :
           <Content/>}
-           
           </Box>
 
 
