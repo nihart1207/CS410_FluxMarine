@@ -13,6 +13,7 @@ import UsersContent from "./UsersContent";
 import ProductsContent from "./ProductsContent";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogContentText } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import OrdersContent from "./OrdersContent";
 
 function Copyright() {
   return (
