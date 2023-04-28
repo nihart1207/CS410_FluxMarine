@@ -6,16 +6,13 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import IconButton from "@mui/material/IconButton";
-import { DatePicker } from "@mui/lab";
 import SuppliersTable from "./SuppliersTable";
 
 export default function SuppliersContent() {
   
     // for suppliers table 
     const [all_suppliers, setAllSuppliers] = React.useState([]);
-
+    const [searchName , setSearchName] = React.useState('');
     const [suppliers, setSuppliers] = React.useState([]);
 
   React.useEffect(() => {
@@ -39,24 +36,7 @@ export default function SuppliersContent() {
         console.error('Error:', error);
       });
   }, []);
-    
-    
-    const [selectedDate, setSelectedDate] = React.useState(null);
-    const [calendarOpen, setCalendarOpen] = React.useState(false);
-    const [searchName , setSearchName] = React.useState('');
   
-    const handleCalendarOpen = () => {
-      setCalendarOpen(true);
-    };
-  
-    const handleCalendarClose = () => {
-      setCalendarOpen(false);
-    };
-  
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-      handleCalendarClose();
-    };
 
     const handleSearchNameChange = (event) => {
       const {value} = event.target;

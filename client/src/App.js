@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import SignupPage from "./Pages/SignupPage";
-import Dashboard from "./components/Dashboard";
+import DashboardPage from "./Pages/DashboardPage";
 import RootLayout from "./Pages/Root";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <LoginPage /> },
       { path: "/signup", element: <SignupPage /> },
-      { path: "/dashboard", element: <Dashboard /> },
+      { path: "/dashboard", element: <DashboardPage /> },
     ],
   },
 ]);

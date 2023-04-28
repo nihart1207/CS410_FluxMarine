@@ -16,13 +16,28 @@ import SendIcon from "@mui/icons-material/Send"
 import { Dialog, DialogTitle, DialogContent, TextField } from "@mui/material";
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
-
+import Menu from '@mui/material/Menu';
+import { useNavigate } from "react-router-dom";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
 function Header(props) {
+
+  const navigate = new useNavigate();
   const { onDrawerToggle } = props;
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+  const open_profile = Boolean(anchorEl);
+  const isMenuOpen = Boolean(anchorEl);
+  const menuId = 'primary-search-account-menu';
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleLogout = (event) => {
+    navigate("/");
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -30,6 +45,10 @@ function Header(props) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleProfileClose = () => {
+    setAnchorEl(null);
   };
 
   const renderExportButton = () => {
@@ -222,9 +241,9 @@ function Header(props) {
             size="large"
             startIcon={<SendIcon />}
             onClick={handleOpen}
-          >
+            > 
             Submit
-          </Button>
+            </Button>
           </Stack>
           </Dialog>
         </div>
@@ -233,6 +252,37 @@ function Header(props) {
   
     return null;
   };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  
+
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={()=> handleProfileClick()} >Profile</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+    </Menu>
+  );
+
+  const handleProfileClick = () => {
+    handleMenuClose();
+    props.openProfilePopup();
+  }
 
   return (
     <React.Fragment>
@@ -257,14 +307,20 @@ function Header(props) {
                 </IconButton>
               </Tooltip>
             </Grid>
-            <Grid item>
-              <IconButton color="inherit" sx={{ p: 0.5 }} >
+            <Grid item onClick={handleClick} >
+              <IconButton color="inherit" sx={{ p: 0.5 }}
+                  onClick={handleClick} 
+                  aria-controls={open_profile ? 'account-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open_profile ? 'true' : undefined}   
+              >
                 <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
               </IconButton>
-              
-
             </Grid>
           </Grid>
+          
+          {renderMenu}
+
         </Toolbar>
       </AppBar>
 

@@ -6,12 +6,6 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { DatePicker } from "@mui/lab";
 import UsersTable from "./UsersTable";
 
 export default function UsersContent() {
@@ -42,23 +36,9 @@ React.useEffect(() => {
 }, []);
     
   
-  
-    const [selectedDate, setSelectedDate] = React.useState(null);
-    const [calendarOpen, setCalendarOpen] = React.useState(false);
     const [searchName , setSearchName] = React.useState('');
-
-    const handleCalendarOpen = () => {
-      setCalendarOpen(true);
-    };
   
-    const handleCalendarClose = () => {
-      setCalendarOpen(false);
-    };
   
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-      handleCalendarClose();
-    };
 
     const handleSearchNameChange = (event) => {
       const {value} = event.target;

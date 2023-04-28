@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from 'axios';
+import Alert from '@mui/material/Alert';
 import {
   TextField,
   Button,
@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import Dashboard from "../components/Dashboard";
 import { useNavigate } from "react-router-dom";
+import "../assets/style.css"
 
 const Form = styled("form")(({ theme }) => ({
   width: "100%",
@@ -29,15 +29,18 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
+    setError("");
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setError("");
   };
 
   const handleClickShowPassword = () => {
@@ -61,10 +64,10 @@ function LoginPage() {
     })
     .then(response => {
       if (!response.ok) {
-        if (response.status == 401) {
-          alert("Wrong username/password");
-        } else if (response.status == 400 ) {
-          alert("missing username/password");
+        if (response.status === 401) {
+          setError("Wrong username/password. Try Again");
+        } else if (response.status === 400 ) {
+          setError("Missing username/password");
         }
         throw new Error('Network response was not ok');
       }
@@ -86,36 +89,44 @@ function LoginPage() {
     navigate("/dashboard");
   }
 
-  const handleSignUpClick = () => {
-    navigate("/signup"); // redirect to sign up page
-  };
 
   return (
+    <div >
     <Box
       sx={{
+        
         display: "flex",
         height: "100vh",
         width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
+      <div className="background-image"></div>
+      
       <Box
         sx={{
-          width: "40%",
+          width: "50%",
+          height: "65%" ,
           display: "flex",
+          opacity:"100%",
+          borderRadius: "30px",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
+        
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
+            
           }}
         >
-          <Typography variant="h3" sx={{ mb: 3, color: "#009688" }}>
-            Login
+          <Typography variant="h4" sx={{ mb: 3, color: "#009688" }}>
+            Welcome back,
           </Typography>
           <Form onSubmit={handleSubmit}>
             <Box sx={{ mb: 3 }}>
@@ -157,6 +168,9 @@ function LoginPage() {
                 }}
               />
             </Box>
+
+            {error && <Alert severity="error">{error}</Alert>}
+
             <SubmitButton
               type="submit"
               fullWidth
@@ -165,54 +179,17 @@ function LoginPage() {
             >
               Submit
             </SubmitButton>
+            
             <Link href="#" variant="body2">
               Forgot password?
             </Link>
           </Form>
         </Box>
       </Box>
-      <Box
-        sx={{
-          position: "relative",
-          width: "60%",
-          height: "100%",
-          backgroundImage: "url(assests/flux.png)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            background:
-              "linear-gradient(to right, rgba(36,198,220,0.5), rgba(81,74,157,0.5))",
-          },
-        }}
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "80%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSignUpClick}
-          >
-            Sign Up
-          </Button>
-        </Box>
-      </Box>
+
+
     </Box>
+    </div>
   );
 }
 
