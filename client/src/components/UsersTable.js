@@ -36,7 +36,7 @@ function UsersTable({ users }) {
         <TableBody>
           {users.map((user, index) => (
             <StyledTableRow key={user.id} odd={index % 2 === 0}>
-              <TableCell>{user._id}</TableCell>
+              <TableCell>{index}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.role}</TableCell>

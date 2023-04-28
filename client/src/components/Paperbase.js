@@ -8,10 +8,11 @@ import Link from "@mui/material/Link";
 import Navigator from "./Navigator";
 import Content from "./Content";
 import Header from "./Header";
-import ProuductsContent from "./ProductsContent";
 import SuppliersContent from "./SuppliersContent";
 import UsersContent from "./UsersContent";
 import ProductsContent from "./ProductsContent";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogContentText } from "@mui/material";
+import TextField from "@mui/material/TextField";
 
 function Copyright() {
   return (
@@ -172,13 +173,75 @@ theme = {
 const drawerWidth = 256;
 
 export default function Paperbase() {
-  const [content, setContent] = React.useState("Orders");
+  const [content, setContent] = React.useState("Dashboard");
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
+  const [popup, setPopup] = React.useState(false);
+  const [name, setName] = React.useState("");
+  const [isEditOn, setIsEditOn] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleClose = () => {
+    setPopup(false);
+  }
+
+  const handleOpen = () => {
+    setPopup(true);
+  }
+
+  const renderProfile = () => {
+    return (
+      <Dialog
+        open={popup}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }} >
+          {"Profile"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            
+          
+          {/* current not in editing mode*/}
+          {!isEditOn && (<Typography variant="h6" gutterBottom>
+          {"Name"}</Typography>)}
+          {/* currently in editing mode*/}
+          {isEditOn && <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={handleNameChange}/>}
+          <Typography variant="h6" gutterBottom>
+          {"Role"}
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+          {"User since:"}
+          </Typography>
+
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleEdit}>Edit</Button>
+          <Button onClick={handleClose} autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    )
+  }
+
+  const handleNameChange=(event)=>{
+    setName(event.target.value);
+  }
+
+  const handleEdit=()=> {
+      if (name) {
+
+      } else {
+
+      }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -206,9 +269,11 @@ export default function Paperbase() {
 
 
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <Header onDrawerToggle={handleDrawerToggle} name={content}/>
-
+          <Header onDrawerToggle={handleDrawerToggle} name={content} openProfilePopup={handleOpen}/> 
             
+          {/*pop up buton*/}
+          {popup && renderProfile()}
+
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}> 
           {content === "Users" ? <UsersContent/> :
           content === "Parts" ? <ProductsContent/> :

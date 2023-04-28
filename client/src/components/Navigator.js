@@ -7,16 +7,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import HomeIcon from "@mui/icons-material/Home";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import { Typography } from "@mui/material";
 
 const categories = [
   {
-    id: "Dashboard",
+    id: "",
     children: [
       { id: "Dashboard", icon: <DashboardOutlinedIcon /> },
       { id: "Orders", icon: <AddShoppingCartOutlinedIcon /> },
@@ -48,16 +48,10 @@ export default function Navigator(props) {
   return (
     <Drawer variant="permanent" {...other}>
       <List>
-        <ListItem
+        <ListItem 
           sx={{ ...item, ...itemCategory, fontSize: 30, color: "#fff" }}
         >
-          Flux Marine
-        </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }}>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText>Overview</ListItemText>
+          FLUX MARINE
         </ListItem>
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: "black", height: "100%" }}>

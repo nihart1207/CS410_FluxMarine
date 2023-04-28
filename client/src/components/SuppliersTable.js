@@ -37,7 +37,7 @@ function SuppliersTable({ suppliers }) {
         <TableBody>
           {suppliers.map((supplier, index) => (
             <StyledTableRow key={supplier.id} odd={index % 2 === 0}>
-              <TableCell>{supplier._id}</TableCell>
+              <TableCell>{index}</TableCell>
               <TableCell>{supplier.supplierName}</TableCell>
               {/* <TableCell>{supplier.address}</TableCell> */}
               <TableCell>{supplier.contact}</TableCell>
