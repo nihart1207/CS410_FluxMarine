@@ -12,7 +12,6 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
-import { Typography } from "@mui/material";
 
 const categories = [
   {

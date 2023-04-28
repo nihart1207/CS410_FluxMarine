@@ -278,6 +278,7 @@ export default function Paperbase() {
           {content === "Users" ? <UsersContent/> :
           content === "Parts" ? <ProductsContent/> :
           content === "Suppliers" ? <SuppliersContent/> :
+          content === "Orders" ? <OrdersContent/> :
           <Content/>}
           </Box>
 
