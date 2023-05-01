@@ -1,4 +1,5 @@
 import * as React from "react";
+import Cookies from 'js-cookie';
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
@@ -6,7 +7,6 @@ import Button from "@mui/material/Button";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
@@ -18,11 +18,14 @@ import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useNavigate } from "react-router-dom";
+import jwt_decode from 'jwt-decode';
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
 function Header(props) {
 
+  const cookieValue = Cookies.get('token');
+  const payload = jwt_decode(cookieValue);
   const navigate = new useNavigate();
   const { onDrawerToggle } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,6 +39,7 @@ function Header(props) {
   };
 
   const handleLogout = (event) => {
+    Cookies.remove('token');
     navigate("/");
   }
 
@@ -45,10 +49,6 @@ function Header(props) {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleProfileClose = () => {
-    setAnchorEl(null);
   };
 
   const renderExportButton = () => {
@@ -257,6 +257,11 @@ function Header(props) {
     setAnchorEl(null);
   };
   
+  const titleCase = (str) => {
+    return str.toLowerCase().split(' ').map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+  };
 
   const renderMenu = (
     <Menu
@@ -273,22 +278,22 @@ function Header(props) {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
-    >
-      <MenuItem onClick={()=> handleProfileClick()} >Profile</MenuItem>
+    > 
+      <MenuItem onClick={()=> props.setChangeNameDialog(true)} >Change Name</MenuItem>
+      <MenuItem onClick={()=> props.setChangePasswordDialog(true)} >Change Password</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
-
-  const handleProfileClick = () => {
-    handleMenuClose();
-    props.openProfilePopup();
-  }
 
   return (
     <React.Fragment>
       <AppBar color="primary" position="sticky" elevation={0}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
+            <Grid item>
+              <Typography variant="h4" sx={{ p: 0.5 }} gutterBottom>Hi ,{titleCase(payload.name)}</Typography>    
+            </Grid>
+
             <Grid sx={{ display: { sm: "none", xs: "block" } }} item>
               <IconButton
                 color="inherit"
@@ -296,7 +301,6 @@ function Header(props) {
                 onClick={onDrawerToggle}
                 edge="start"
               >
-                <MenuIcon />
               </IconButton>
             </Grid>
             <Grid item xs />
