@@ -216,7 +216,7 @@ export default function Paperbase() {
 
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}> 
           {changeNameDialog && <ChangeName setChangeNameDialog={setChangeNameDialog} /> }
-          
+          {changePasswordDialog && <ChangeName setChangePasswordDialog={setChangePasswordDialog} /> }
           {content === "Users" ? <UsersContent/> :
           content === "Parts" ? <ProductsContent/> :
           content === "Suppliers" ? <SuppliersContent/> :

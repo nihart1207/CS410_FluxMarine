@@ -3,25 +3,25 @@ import Cookies from 'js-cookie';
 import axios from "axios"
 import jwt_decode from 'jwt-decode';
 import { Button,DialogTitle, Dialog, DialogContent,
-     DialogContentText, DialogActions, Alert,TextField } from "@mui/material";
+     DialogContentText, DialogActions, Alert,TextField, Box } from "@mui/material";
 import {useNavigate} from 'react-router-dom';
 
-export default function ChangeName({setChangeNameDialog}) {
+export default function ChangePassword({setChangePasswordDialog}) {
 
     const cookieValue = Cookies.get('token');
     const navigate = useNavigate();
     const payload = jwt_decode(cookieValue);
-    const [newName, setNewName] = React.useState("");
-    const [confirmNewName, setConfirmNewName] = React.useState("");
+    const [newPassword, setNewPassword] = React.useState("");
+    const [confirmPassword, setConfirmPassword] = React.useState("");
     const [error, setError] = React.useState("");
 
     const handleSave = async(event) => {
-        if (newName === "" || confirmNewName === "") {
+        if (newPassword === "" || confirmPassword === "") {
             setError("Cannot leave the field empty");
-        } else if (newName !== confirmNewName) {
-            setError("Names are not matching");
+        } else if (newPassword !== confirmPassword) {
+            setError("Passwords are not matching");
         } else {
-            const response = await axios.put('/api/user?email='+payload.email+'&name='+newName);
+            const response = await axios.put('/api/user?email='+payload.email+'&password='+newPassword);
             switch (response.status) {
                 case 200:
                     console.log("succesfully updated");
@@ -30,28 +30,58 @@ export default function ChangeName({setChangeNameDialog}) {
                     navigate("/", {replace : true})
                     break;
             }
-            setChangeNameDialog(false);
+            setChangePasswordDialog(false);
         }
     }
 
     return (
         <Dialog
+        style={{padding: '24px'}}
+          open="true"
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }} >
-            {"Change Name of the Account"}
+            {"Change Password of the Account"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-            <TextField id="outlined-basic" label="New Name" variant="outlined" required onChange={(event)=>{setNewName(event.target.value); setError("");}}/>
-            <TextField id="outlined-basic" label="Confirm New Name" variant="outlined" required onChange={(event)=>{setConfirmNewName(event.target.value); setError("");}}/>
-            <Alert severity="error">{error}</Alert>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
+            <TextField
+            id="outlined-basic"
+            type="password"
+            label="New Password"
+            variant="outlined"
+            required
+            onChange={(event) => {
+            setNewPassword(event.target.value);
+            setError("");
+            }}
+            sx={{ mb: 2 }}
+            />
+        <TextField
+            id="outlined-basic"
+            type="password"
+            label="Confirm Password"
+            variant="outlined"
+            required
+            onChange={(event) => {
+            setConfirmPassword(event.target.value);
+            setError("");
+            }}
+            sx={{ mb: 2 }}
+                />
+                {error && <Alert severity="error">{error}</Alert>}
+            </Box>
             </DialogContentText>
-          </DialogContent>
+            </DialogContent>
           <DialogActions>
-            <Button onClick={() => setChangeNameDialog(false)}> Cancel</Button>
-            <Button onClick={handleSave} autoFocus>Save</Button>
+            <Button onClick={() => setChangePasswordDialog(false)}> Cancel</Button>
+            <Button sx={{
+    '&:hover': {
+      bgcolor: 'rgba(76, 175, 80, 0.8)',
+    },
+  }} onClick={handleSave} autoFocus>Save</Button>
           </DialogActions>
         </Dialog>
       )
