@@ -90,21 +90,20 @@ exports.deleteUserByEmail = async (req, res, next) => {
 //updates user by email if and only if user requesting is self
 //only admin can change the role
 //changing token cookie too....
-exports.updateUserByEmail = async (req, res, next) => {
+exports.updateUserByEmail = async (req, res) => {
 
   const payload = req.user;
   const {email} = req.query;
-  const {password, role, name} = req.body;
+  const {password, role, name} = req.query;
 
-  if(!name && !password && !email) {
+  if(!email) {
     return res.status(400).json({ error: "email to be updated missing" });
   }
 
-  if (!payload) {
+  if (payload.role !== "ADMIN" || payload.email !== email) {
     return res.status(401).json({ error: "user not authorized" });
   }
 
-  
 
   try {
     const user = await User.findOne({email: email});
@@ -127,10 +126,13 @@ exports.updateUserByEmail = async (req, res, next) => {
     if (role && payload.role !== "ADMIN") {
       return res.status(401).json({error : "user not authorized"});
     }
-  
-    if (role) await User.updateOne({email: email} ,{role: role});
-
-    return res.status(200).json({message: "updated succesfully"});
+    
+    const token = createTokenForUser(user);
+    if (payload.email === email) {
+      return res.cookies('token', token).status(200).json({message: "updated succesfully"});
+    } else {
+      return res.status(200).json(user);
+    }
 
   } catch (err) {
     return res.status(500).json({ error: err.message });
