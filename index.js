@@ -52,4 +52,5 @@ mongoose.connect(uri, {
 
 app.listen(port, () => {
     console.log('Server is listening');
+    console.log(port)
 })
