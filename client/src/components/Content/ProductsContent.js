@@ -6,12 +6,11 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import ProductsTable from "./ProductsTable";
+import ProductsTable from "../Table/ProductsTable";
 
 export default function ProductsContent() {  
     //for products table
     const [all_products, setAllProducts] = React.useState([]);
-
     const [products, setProducts] = React.useState([]);
 
   React.useEffect(() => {

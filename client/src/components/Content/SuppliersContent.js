@@ -6,7 +6,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import SuppliersTable from "./SuppliersTable";
+import SuppliersTable from "../Table/SuppliersTable";
 
 export default function SuppliersContent() {
   

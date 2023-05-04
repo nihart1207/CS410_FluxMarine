@@ -6,13 +6,10 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import OrdersTable from "./OrdersTable";
-import { DatePicker } from "@mui/lab";
+import OrdersTable from "../Table/OrdersTable";
 
 
 export default function OrdersContent() {
@@ -42,23 +39,8 @@ export default function OrdersContent() {
       });
   }, []);
 
-
-  const [selectedDate, setSelectedDate] = React.useState(null);
-  const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [searchId, setSearchId] = React.useState("");
 
-  const handleCalendarOpen = () => {
-    setCalendarOpen(true);
-  };
-
-  const handleCalendarClose = () => {
-    setCalendarOpen(false);
-  };
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    handleCalendarClose();
-  };
 
   const handleIdChange = (event) => {
     const {value} = event.target;
@@ -111,24 +93,6 @@ export default function OrdersContent() {
                 value={searchId}
                 onChange={handleIdChange}
                 variant="standard"
-              />
-            </Grid>
-            
-            
-            <Grid item>
-              <IconButton onClick={handleCalendarOpen}>
-                <CalendarTodayIcon />
-              </IconButton>
-              <DatePicker
-                open={calendarOpen}
-                onOpen={handleCalendarOpen}
-                onClose={handleCalendarClose}
-                value={selectedDate}
-                onChange={handleDateChange}
-                renderInput={(params) => (
-                  <TextField {...params} placeholder="Select date" />
-                )}
-                sx={{ zIndex: 2000 }} // Ensure calendar popoveris on top of other elements
               />
             </Grid>
             

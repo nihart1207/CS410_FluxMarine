@@ -5,7 +5,7 @@ import { Card } from "@mui/material";
 import { CardContent } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-export default function Content() {
+export default function DashboardContent() {
 
   React.useEffect(() => {
     fetch('/api/stocks', {

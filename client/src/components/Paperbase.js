@@ -5,15 +5,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import Navigator from "./Navigator";
-import Content from "./Content";
+import Navigator from "./Navigation/Navigator";
+import Content from "./Content/Content";
 import Header from "./Header";
 import SuppliersContent from "./SuppliersContent";
-import UsersContent from "./UsersContent";
+import UsersContent from "./Content/UsersContent";
 import ProductsContent from "./ProductsContent";
 import OrdersContent from "./OrdersContent";
 import ChangeName from "./Forms/ChangeName";
-import Cookies from 'js-cookie';
+import ChangePassword from "./Forms/ChangePassword";
 
 function Copyright() {
   return (
@@ -188,6 +188,7 @@ export default function Paperbase() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", minHeight: "100vh" }}>
         <CssBaseline />
+        {/* side Navigation bar */}
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -215,14 +216,18 @@ export default function Paperbase() {
           setChangeNameDialog={setChangeNameDialog} /> 
 
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}> 
+          
           {changeNameDialog && <ChangeName setChangeNameDialog={setChangeNameDialog} /> }
-          {changePasswordDialog && <ChangeName setChangePasswordDialog={setChangePasswordDialog} /> }
+          {changePasswordDialog && <ChangePassword setChangePasswordDialog={setChangePasswordDialog} /> }
+          
+
           {content === "Users" ? <UsersContent/> :
           content === "Parts" ? <ProductsContent/> :
           content === "Suppliers" ? <SuppliersContent/> :
           content === "Orders" ? <OrdersContent/> :
           <Content/>}
           </Box>
+
 
 
           <Box component="footer" sx={{ p: 2, bgcolor: "#eaeff1" }}>
