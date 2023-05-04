@@ -6,7 +6,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import UsersTable from "./UsersTable";
+import UsersTable from "../Table/UsersTable";
 
 export default function UsersContent() {
   const [all_users, setAllUsers] = React.useState([]);

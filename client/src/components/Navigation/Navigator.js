@@ -12,6 +12,13 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
+
+
+
+const cookieValue = Cookies.get('token');
+const payload = jwt_decode(cookieValue);
 
 const categories = [
   {
@@ -21,7 +28,7 @@ const categories = [
       { id: "Orders", icon: <AddShoppingCartOutlinedIcon /> },
       { id: "Parts", icon: <Inventory2OutlinedIcon /> },
       { id: "Suppliers", icon: <LocalShippingOutlinedIcon /> },
-      { id: "Users", icon: <GroupAddOutlinedIcon />,},
+      ...(payload.role === "ADMIN" ? [{ id: "Users", icon: <GroupAddOutlinedIcon /> }] : []),
     ],
   },
 ];

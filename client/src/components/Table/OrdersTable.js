@@ -1,4 +1,6 @@
-import React from "react";
+// import React from "react";
+import React, { useState } from 'react';
+import Checkbox from '@mui/material/Checkbox';
 import styled from "@emotion/styled";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -56,11 +58,38 @@ const date = (isoDate) => {
 }
 
 function OrdersTable({ orders }) {
+
+  const [selectedOrders, setSelectedOrders] = useState([]);
+
+  const handleSelectOrder = (orderId) => {
+    const isSelected = selectedOrders.includes(orderId);
+    if (isSelected) {
+      setSelectedOrders(selectedOrders.filter((id) => id !== orderId));
+    } else {
+      setSelectedOrders([...selectedOrders, orderId]);
+    }
+  };
+
+  const isOrderSelected = (orderId) => selectedOrders.includes(orderId);
+
+  const handleCheckboxChange = (orderId) => {
+    setSelectedOrders((selectedOrders) => {
+      if (selectedOrders.has(orderId)) {
+        selectedOrders.delete(orderId);
+      } else {
+        selectedOrders.add(orderId);
+      }
+      return new Set(selectedOrders);
+    });
+  };
+  
+
   return (
     <StyledTableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
+            <StyledHeaderCell>Select</StyledHeaderCell>
             <StyledHeaderCell>Order ID</StyledHeaderCell>
             <StyledHeaderCell>Date</StyledHeaderCell>
             <StyledHeaderCell>Supplier</StyledHeaderCell>
@@ -69,8 +98,14 @@ function OrdersTable({ orders }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.map((order, index) => (
+        {orders.map((order, index) => (
             <StyledTableRow key={order.id} odd={index % 2 === 0}>
+              <TableCell>
+                <Checkbox
+                  checked={selectedOrders.includes(order._id)}
+                  onChange={() => handleCheckboxChange(order._id)}
+                />
+              </TableCell>
               <TableCell>{order._id}</TableCell>
               <TableCell>{date(order.createdAt)}</TableCell>
               <TableCell>{order.supplier.supplierName}</TableCell>

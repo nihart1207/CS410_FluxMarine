@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 import Cookies from 'js-cookie';
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -32,6 +33,7 @@ function Header(props) {
   const [open, setOpen] = React.useState(false);
   const open_profile = Boolean(anchorEl);
   const isMenuOpen = Boolean(anchorEl);
+  const [error, setError] = React.useState("");
   const menuId = 'primary-search-account-menu';
 
   const handleClick = (event) => {
@@ -80,15 +82,6 @@ function Header(props) {
     if (props.name === "Orders") {
       return (
         <form>
-          <TextField
-            required
-            autoFocus
-            margin="dense"
-            id="order_id"
-            label="Order ID"
-            type="text"
-            fullWidth
-          />
           <TextField
             required
             margin="dense"
@@ -196,6 +189,63 @@ function Header(props) {
 
   }
 
+  const handleSubmit = (event) => {
+    if (props.name === "Orders") {
+      const part_id = document.getElementById("part_id").value;
+      const supplier_id = document.getElementById("supplier_id").value;
+      if (part_id && supplier_id) {
+        createStockApi(part_id, supplier_id);
+      } else {
+        setError("Part Id/ Supplier Id are missing");
+      }
+    } else if (props.name === "Users") {
+      const name = document.getElementById("name").value;
+      const user_email = document.getElementById("user_email").value;
+      const role = document.getElementById("role").value;
+      if (name && user_email && role) {
+
+      } else {
+        setError("Name/Email/Role are Missing");
+      }
+    } else if (props.name === "Suppliers") {
+      const supplier_name = document.getElementById("supplier_name").value;
+      const supplier_email = document.getElementById("supplier_email").value;
+      const contact = document.getElementById("contact").value;
+      if (supplier_name && supplier_email && contact) {
+
+      } else {
+        setError("Supplier Name/ Supplier Email/Supplier Contact are Missing");
+      }
+    } else {
+      const part_name = document.getElementById("part_name").value;
+      const part_description = document.getElementById("part_description").value;
+      if (part_name && part_description) {
+
+      } else {
+        setError("Part Name/ Part Description are Missing");
+      }
+    }
+  }
+
+  async function createStockApi(part_id, supplier_id) {
+    const response = await axios.post( "/api/stock" ,{part_id:part_id, supplier_id:supplier_id}, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    switch (response.status) {
+    }
+  }
+
+  async function createPartApi(part_name, part_description) {
+    const response = await axios.post( "/api/part" ,{name:part_name, description:part_description}, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    switch (response.status) {
+    }
+  }
 
   const renderNewItemButton = () => {
     if (props.name !== "Dashboard") {
@@ -304,13 +354,6 @@ function Header(props) {
               </IconButton>
             </Grid>
             <Grid item xs />
-            <Grid item>
-              <Tooltip title="Alerts • No alerts">
-                <IconButton color="inherit">
-                  <NotificationsIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
             <Grid item onClick={handleClick} >
               <IconButton color="inherit" sx={{ p: 0.5 }}
                   onClick={handleClick} 

@@ -57,7 +57,7 @@ exports.getPartById = async (req, res, next) => {
   }
 };
 
-exports.updatePartById = async (req, res, next) => {
+exports.updatePartById = async (req, res) => {
   if (req.user.role === "USER") res.status(401).json({message : "unauthorized to add"});
 
   try {

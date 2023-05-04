@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import DashboardPage from '../Pages/DashboardPage';
+import DashboardPage from '../../Pages/DashboardPage';
 
 
 const MainContent = () => {
