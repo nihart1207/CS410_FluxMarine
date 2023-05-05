@@ -2,11 +2,11 @@ require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const userRoutes = require('./routes/user');
-const supplierRoutes = require('./routes/supplier');
-const partRoutes = require('./routes/part');
-const stockRoutes = require('./routes/stocks');
-const authenticationMiddleware = require('./middleware/auth')
+const userRoutes = require('./server/routes/user');
+const supplierRoutes = require('./server/routes/supplier');
+const partRoutes = require('./server/routes/part');
+const stockRoutes = require('./server/routes/stocks');
+const {authenticationMiddleware} = require('./server/middleware/auth')
 const cookieParser = require('cookie-parser');
 
 const port = process.env.PORT || 3000;

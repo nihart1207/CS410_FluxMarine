@@ -11,11 +11,6 @@ const partSchema = new mongoose.Schema({
           type: String,
           default: "",
       },
-      
-      partImageURL: {
-        type: String,
-        default: "images/default.png"
-      },
 
   }, {timestamps: true});
 

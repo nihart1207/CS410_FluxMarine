@@ -26,6 +26,7 @@ exports.createNewStock = async (req, res, next) => {
   try {
     const part = await Part.findOne({_id: part_id});
     const supplier = await Supplier.findOne({_id: supplier_id});
+
     const stock = new Stock({supplier, part, notes});
 
     await stock.save();

@@ -8,12 +8,14 @@ const supplierSchema = new mongoose.Schema({
     
     email: {
       type :String,
+      required: true,
       default: ""
     },
 
     contact: {
       type: String,
-      default: ""
+      default: "",
+      required: true,
     }
 
   },{timestamps: true});
