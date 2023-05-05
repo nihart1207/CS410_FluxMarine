@@ -9,7 +9,7 @@ body {
 
 
 .background-image {
-    background-image: url('./water.jpg') ;
+    background-image: url('./original.jpeg') ;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top left;

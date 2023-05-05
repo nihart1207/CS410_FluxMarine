@@ -3,6 +3,8 @@ import LoginPage from "./Pages/LoginPage";
 import SignupPage from "./Pages/SignupPage";
 import DashboardPage from "./Pages/DashboardPage";
 import RootLayout from "./Pages/Root";
+import 'typeface-montserrat';
+
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import ErrorPage from "./Pages/Error";
@@ -15,7 +17,7 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: 'Montserrat, sans-serif',
     h1: {
       fontSize: '3rem',
       fontWeight: 600,
