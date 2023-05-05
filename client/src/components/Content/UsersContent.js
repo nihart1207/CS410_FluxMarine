@@ -7,13 +7,14 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import UsersTable from "../Table/UsersTable";
+import ActionBar from "../Actions/ActionBar";
+import Box from '@mui/material/Box';
 
 export default function UsersContent() {
   const [all_users, setAllUsers] = React.useState([]);
+  const [searchName , setSearchName] = React.useState('');
 
-  const [users, setUsers] = React.useState([]);
-
-React.useEffect(() => {
+  React.useEffect(() => {
   fetch('/api/users', {
     method: 'GET',
     headers: {
@@ -28,34 +29,29 @@ React.useEffect(() => {
     })
     .then(data => {
       setAllUsers(data);
-      setUsers(data);
     })
     .catch(error => {
       console.error('Error:', error);
     });
-}, []);
-    
-  
-    const [searchName , setSearchName] = React.useState('');
-  
-  
+  }, []);
 
-    const handleSearchNameChange = (event) => {
-      const {value} = event.target;
-      setSearchName(value)
-      if (value) {
-        const filteredProducts = Object.values(all_users).filter((user) =>
-        user.name.toLowerCase().includes(value.toLowerCase())
-        );
-        setUsers(filteredProducts);
-      } else {
-        setUsers(all_users);
-      }
-    };
-
-  
   // for users table 
   return (
+    <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          minHeight: 'calc(100vh - 64px - 56px)',
+          overflowY: 'scroll',
+          paddingTop: 2,
+          paddingBottom: 2,
+          paddingRight: 3,
+          paddingLeft: 3
+        }}
+      >
+    
+    <ActionBar name="Users" data={all_users} setData={setAllUsers} ></ActionBar>
+
     <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden" }}>
       <AppBar
         position="static"
@@ -78,16 +74,18 @@ React.useEffect(() => {
                 }}
                 variant="standard"
                 value={searchName}
-                onChange={handleSearchNameChange}
+                onChange={(event)=>setSearchName(event.target.value)}
               />
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
       <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
-        <UsersTable users={users} />
+        <UsersTable all_users={all_users} searchName={searchName} setAllUsers={setAllUsers}/>
       </Typography>
     </Paper>
+
+    </Box>
   );
   }
   

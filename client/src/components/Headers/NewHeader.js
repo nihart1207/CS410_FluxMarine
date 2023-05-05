@@ -18,7 +18,6 @@ import SuppliersContent from '../../components/Content/SuppliersContent'
 import UsersContent from '../../components/Content/UsersContent';
 import OrdersContent from '../Content/OrdersContent';
 import DashboardContent from '../Content/DashboardContent';
-import ActionBar from '../Actions/ActionBar';
 
 
 export default function Header() {
@@ -172,31 +171,13 @@ export default function Header() {
         </Toolbar>
       </AppBar>
 
-
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          minHeight: 'calc(100vh - 64px - 56px)',
-          overflowY: 'scroll',
-          paddingTop: 2,
-          paddingBottom: 2,
-          paddingRight: 3,
-          paddingLeft: 3
-        }}
-      >
-        {/* action bar */}
-
-        <ActionBar name={content}/>
-
         {/* content */}
 
-        {content === 'Dashboard' && <DashboardContent />}
-        {content === 'Parts' && <ProductsContent /> }
-        {content === 'Suppliers' && <SuppliersContent />}
-        {content === 'Users' && <UsersContent />}
-        {content === 'Orders' && <OrdersContent />}
-      </Box>
+      {content === 'Dashboard' && <DashboardContent />}
+      {content === 'Parts' && <ProductsContent /> }
+      {content === 'Suppliers' && <SuppliersContent />}
+      {content === 'Users' && <UsersContent />}
+      {content === 'Orders' && <OrdersContent />}
 
 
       {/* sideNavigation bar */}

@@ -7,11 +7,13 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import ProductsTable from "../Table/ProductsTable";
+import Box from '@mui/material/Box';
+import ActionBar from "../Actions/ActionBar";
 
 export default function ProductsContent() {  
     //for products table
     const [all_products, setAllProducts] = React.useState([]);
-    const [products, setProducts] = React.useState([]);
+    const [searchName , setSearchName] = React.useState('');
 
   React.useEffect(() => {
     fetch('/api/parts', {
@@ -28,33 +30,32 @@ export default function ProductsContent() {
       })
       .then(data => {
         setAllProducts(data);
-        setProducts(data);
       })
       .catch(error => {
         console.error('Error:', error);
       });
   }, []);
   
-    const [searchName , setSearchName] = React.useState('');
-  
-    
-
-    const handleNameChange = (event) => {
-      const {value} = event.target;
-      setSearchName(value)
-      if (value) {
-        const filteredProducts = Object.values(all_products).filter((product) =>
-        product.partName.toLowerCase().includes(value.toLowerCase())
-        );
-        setProducts(filteredProducts);
-      } else {
-        setProducts(all_products);
-      }
-    };
-  
   // for products table 
   return (
+    <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          minHeight: 'calc(100vh - 64px - 56px)',
+          overflowY: 'scroll',
+          paddingTop: 2,
+          paddingBottom: 2,
+          paddingRight: 3,
+          paddingLeft: 3
+        }}
+      >
+    {/* action buttons go here */}
+    <ActionBar name="Parts" data={all_products} setData={setAllProducts} ></ActionBar>
+
+
     <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden" }}>
+      {/* search bar goes here */}
       <AppBar
         position="static"
         color="default"
@@ -76,15 +77,17 @@ export default function ProductsContent() {
                 }}
                 variant="standard"
                 value={searchName}
-                onChange={handleNameChange}
+                onChange={(event) => setSearchName(event.target.value)}
               />
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
+      {/* Table goes here */}
       <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
-        <ProductsTable products={products} />
+        <ProductsTable all_products={all_products} setAllProducts={setAllProducts} searchName={searchName}/>
       </Typography>
     </Paper>
+    </Box>
   );
 }

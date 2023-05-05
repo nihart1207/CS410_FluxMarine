@@ -2,25 +2,26 @@ import React from 'react';
 import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
-import { Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField} from '@mui/material';
 
 
-function EditButtonWithDialog({user, handleRequest}) {
+export default function EditPartData({product, handleRequest}) {
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = useState(user.name);
-  const [role, setRole] = useState(user.role);
+  const [partName, setPartName] = useState(product.productName);
+  const [partDescription, setPartDescription] = useState(product.productDescription);
 
   function renderForm() {
     const handleNameChange = (event) => {
-      setName(event.target.value);
+        setPartName(event.target.value);
     };
 
-    const handleRoleChange = (event) => {
-      setRole(event.target.value);
+    const handleDescriptionChange = (event) => {
+        setPartDescription(event.target.value);
     };
+
 
     const handleSave = () => {
-      handleRequest(user.email, name, role, (success, message) => {
+      handleRequest(product._id , partName, partDescription , (success, message) => {
         if (success) {
           handleClose();
         } else {
@@ -37,29 +38,27 @@ function EditButtonWithDialog({user, handleRequest}) {
     return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit User Details</DialogTitle>
+        <DialogTitle>Edit Part Details</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Name"
+            label="Part Name"
             type="text"
             fullWidth
-            value={name}
+            value={partName}
             onChange={handleNameChange}
           />
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="role-label">Role</InputLabel>
-            <Select
-              labelId="role-label"
-              value={role}
-              onChange={handleRoleChange}
-            >
-              <MenuItem value="ADMIN">Admin</MenuItem>
-              <MenuItem value="EDITOR">Editor</MenuItem>
-              <MenuItem value="USER">Viewer</MenuItem>
-            </Select>
-          </FormControl>
+
+            <TextField
+            autoFocus
+            margin="dense"
+            label="Description"
+            type="text"
+            fullWidth
+            value={partDescription}
+            onChange={handleDescriptionChange}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -84,5 +83,3 @@ function EditButtonWithDialog({user, handleRequest}) {
     </>
   );
 }
-
-export default EditButtonWithDialog;

@@ -7,15 +7,19 @@ import ConfirmationForm from './ConfirmationForm';
 function DeleteButtonWithDialog({ userId, handleRequest }) {
   const [open, setOpen] = React.useState(false);
 
-  const handleAgree = () => {
-    handleRequest(userId, (success, message) => {
-      if (success) {
-        setOpen(false);
-      } else {
-        // Display the error message
-        console.error(message);
-      }
-    });
+  const handleAgree = (agreed) => {
+    if (agreed) {
+      handleRequest(userId, (success, message) => {
+        if (success) {
+          setOpen(false);
+        } else {
+          // Display the error message
+          console.error(message);
+        }
+      });
+    } else {
+      setOpen(false);
+    }  
   };
 
   return (

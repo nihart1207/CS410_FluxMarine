@@ -10,6 +10,8 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import OrdersTable from "../Table/OrdersTable";
+import Box from '@mui/material/Box';
+import ActionBar from "../Actions/ActionBar";
 
 
 export default function OrdersContent() {
@@ -41,20 +43,6 @@ export default function OrdersContent() {
 
   const [searchId, setSearchId] = React.useState("");
 
-
-  const handleIdChange = (event) => {
-    const {value} = event.target;
-    setSearchId(value)
-    if (value) {
-      const filteredProducts = Object.values(all_orders).filter((product) =>
-      product._id.toLowerCase().includes(value.toLowerCase())
-      );
-      setOrders(filteredProducts);
-    } else {
-      setOrders(all_orders);
-    }
-  };
-
   const handleStatusFilterChange = (event) => {
     const { value } = event.target;
     if (value === "") {
@@ -70,6 +58,22 @@ export default function OrdersContent() {
 
   // For Orders table
   return (
+    <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          minHeight: 'calc(100vh - 64px - 56px)',
+          overflowY: 'scroll',
+          paddingTop: 2,
+          paddingBottom: 2,
+          paddingRight: 3,
+          paddingLeft: 3
+        }}
+      >
+    
+    <ActionBar name="Orders" data={all_orders} setData={setAllOrders} ></ActionBar>
+
+
     <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden" }}>
       <AppBar
         position="static"
@@ -91,7 +95,7 @@ export default function OrdersContent() {
                   sx: { fontSize: "default" },
                 }}
                 value={searchId}
-                onChange={handleIdChange}
+                onChange={(event)=>setSearchId(event.target.value)}
                 variant="standard"
               />
             </Grid>
@@ -116,9 +120,10 @@ export default function OrdersContent() {
         </Toolbar>
       </AppBar>
       <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
-        <OrdersTable orders={orders} />
+        <OrdersTable orders={orders} searchId={searchId}/>
       </Typography>
     </Paper>
+    </Box>
   );
 }
 

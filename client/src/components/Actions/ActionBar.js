@@ -4,14 +4,26 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import CreateOrderForm from '../Forms/CreateOrderForm';
+import CreateNewUserForm from "../Forms/CreateNewUserForm";
+import CreateNewSupplierForm from "../Forms/CreateNewSupplierForm"
+import CreateNewPartForm from "../Forms/CreateNewPart";
 
-export default function ActionBar({ role, name }) {
+export default function ActionBar({ role, name , data, setData}) {
   const [popup, setPopup] = React.useState(false);
 
+  const handleClose = () => {
+    setPopup(false);
+  }
+
   const renderPopup = () => {
-    if (name === "Orders") {
-        return <CreateOrderForm popup={popup} setPopup={setPopup}/>
-    }
+    return (
+      <div>
+        {name === "Orders" && <CreateOrderForm popup={popup} setPopup={setPopup} data={data} setData={setData} />}
+        {name === "Users" && <CreateNewUserForm open={popup} handleClose={handleClose} data={data} setData={setData} />}
+        {name === "Suppliers" && <CreateNewSupplierForm open={popup} handleClose={handleClose} data={data} setData={setData} />}
+        {name === "Parts" && <CreateNewPartForm open={popup} handleClose={handleClose} data={data} setData={setData} />}
+      </div>
+    )
   }
 
   return (
@@ -29,7 +41,7 @@ export default function ActionBar({ role, name }) {
 
       {/* Add spacing between buttons */}
       {name === "Orders" &&
-        (<Box sx={{ ml: 2 }}> 
+        (<Box sx={{ ml: 3 }}> 
         </Box>)}
 
      {/* exporting to excel button */}
@@ -46,8 +58,25 @@ export default function ActionBar({ role, name }) {
             }}>Export</Button>)}
 
       {/* Add spacing between buttons */}
+      {name === "Orders" &&
+        (<Box sx={{ ml: 3 }}> 
+        </Box>)}
+
+     {/* exporting to excel button */}
+     {name === "Orders" &&
+        (<Button
+        color="secondary"
+        size="large"
+        variant="outlined"
+        sx={{
+          '&:hover': {
+            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+          },
+            }}>Update</Button>)}
+
+      {/* Add spacing between buttons */}
       {name !== "Dashboard" &&
-        (<Box sx={{ ml: 2 }}> 
+        (<Box sx={{ ml: 3 }}> 
         </Box>)}
         
         {/* Adding new item button */}
@@ -69,3 +98,5 @@ export default function ActionBar({ role, name }) {
     </Box>
   );
 }
+
+

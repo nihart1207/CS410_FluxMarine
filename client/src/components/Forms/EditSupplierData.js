@@ -5,22 +5,28 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 
-function EditButtonWithDialog({user, handleRequest}) {
+export default function EditSupplierData({supplier, handleRequest}) {
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = useState(user.name);
-  const [role, setRole] = useState(user.role);
+  const [supplierName, setSupplierName] = useState(supplier.supplierName);
+  const [email, setEmail] = useState(supplier.email);
+  const [contact, setContact] = useState(supplier.contact);
 
   function renderForm() {
     const handleNameChange = (event) => {
-      setName(event.target.value);
+        setSupplierName(event.target.value);
     };
 
-    const handleRoleChange = (event) => {
-      setRole(event.target.value);
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
     };
+
+    const handleContactChange = (event) => {
+        setContact(event.target.value);
+    };
+
 
     const handleSave = () => {
-      handleRequest(user.email, name, role, (success, message) => {
+      handleRequest(supplier._id , supplierName, email, contact , (success, message) => {
         if (success) {
           handleClose();
         } else {
@@ -37,7 +43,7 @@ function EditButtonWithDialog({user, handleRequest}) {
     return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit User Details</DialogTitle>
+        <DialogTitle>Edit Supplier Details</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -45,21 +51,28 @@ function EditButtonWithDialog({user, handleRequest}) {
             label="Name"
             type="text"
             fullWidth
-            value={name}
+            value={supplierName}
             onChange={handleNameChange}
           />
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="role-label">Role</InputLabel>
-            <Select
-              labelId="role-label"
-              value={role}
-              onChange={handleRoleChange}
-            >
-              <MenuItem value="ADMIN">Admin</MenuItem>
-              <MenuItem value="EDITOR">Editor</MenuItem>
-              <MenuItem value="USER">Viewer</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="email"
+            type="email"
+            fullWidth
+            value={email}
+            onChange={handleEmailChange}
+          />
+
+            <TextField
+            autoFocus
+            margin="dense"
+            label="contact"
+            type="text"
+            fullWidth
+            value={contact}
+            onChange={handleContactChange}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -84,5 +97,3 @@ function EditButtonWithDialog({user, handleRequest}) {
     </>
   );
 }
-
-export default EditButtonWithDialog;
