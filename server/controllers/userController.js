@@ -4,7 +4,7 @@ const {createTokenForUser} = require('../services/authentication');
 
 // Create a new user
 exports.createUser = async (req, res, next) => {
-  const {name, email, password} = req.body;
+  const {name, email, password, role} = req.body;
 
   if (!name || !email || !password) return res.status(400).json({message: "missing username/ password"});
 
@@ -14,11 +14,11 @@ exports.createUser = async (req, res, next) => {
   
 
   try {
-    const user = new User({ name, email, password });
+    const user = new User({ name, email, password, role});
     const token = createTokenForUser(user);
     await user.save();
 
-    return res.cookie("token", token).status(200).json({message: "successfully user created"});
+    return res.status(200).json(user);
     // user created successfully
   } catch (err) {
     return res.status(500).json({ error: err });
@@ -52,16 +52,12 @@ exports.checkLogin = async (req, res, next) => {
 
 
 //deletes a user if the user requesting is an admin and user is not deleting himself
-exports.deleteUserByEmail = async (req, res, next) => {
+exports.deleteUserById = async (req, res) => {
   const payload = req.user;
   const {_id} = req.params;
 
   if (!_id) {
-    return res.status(400).json({ error: "email to be deleted missing" });
-  }
-
-  if (!payload) {
-    return res.status(401).json({ error: "user not authorized" });
+    return res.status(400).json({ error: "id to be deleted missing" });
   }
 
   if (payload && payload.role !== "ADMIN") {
@@ -69,17 +65,17 @@ exports.deleteUserByEmail = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findOne({email: _id});
+    const user = await User.findOne({_id: _id});
     
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (payload.email === user.email) {
+    if (payload._id === user._id) {
       return res.status(409).json({ error: "User cannot delete self" });
     }
 
-    await User.findOneAndDelete({email: _id});
+    await User.findOneAndDelete({_id: _id});
     return res.status(200).json({ message: "Successfully deleted user" });
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -115,7 +111,7 @@ exports.updateUserByEmail = async (req, res) => {
     const updateData = {};
 
     if (name) updateData.name = name;
-    if (password) {
+    if (password && payload.email === email) {
       await User.changePassword(user.email, password);
     }
 
@@ -129,13 +125,14 @@ exports.updateUserByEmail = async (req, res) => {
 
     await User.updateOne({ email: email }, updateData);
 
-    const token = createTokenForUser(user);
+    const updatedUser = await User.findOne({email: email});
+    const token = createTokenForUser(updatedUser);
 
     if (payload.email === email) {
       res.cookie('token', token);
       return res.status(200).json({ message: "Updated successfully" });
     } else {
-      return res.status(200).json(user);
+      return res.status(200).json(updatedUser);
     }
   } catch (err) {
     return res.status(500).json({ error: err.message });
