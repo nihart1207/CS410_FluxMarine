@@ -3,7 +3,6 @@ import LoginPage from "./Pages/LoginPage";
 import SignupPage from "./Pages/SignupPage";
 import DashboardPage from "./Pages/DashboardPage";
 import RootLayout from "./Pages/Root";
-import OrdersTable from "./OrdersTable.js"
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import ErrorPage from "./Pages/Error";
@@ -109,7 +108,6 @@ const router = createBrowserRouter([
       { path: "/", element: <LoginPage /> },
       { path: "/signup", element: <SignupPage /> },
       { path: "/dashboard", element: <DashboardPage /> },
-      { path: "/testing", element: <OrdersTable /> },
     ],
   },
 ]);

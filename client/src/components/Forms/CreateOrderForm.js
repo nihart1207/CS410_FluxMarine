@@ -10,10 +10,11 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Alert, TextField, Stack} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-export default function CreateOrderForm({popup, setPopup}) {
+export default function CreateOrderForm({popup , setPopup, data, setData }) {
 
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  
   const [supplierId, setSupplierId] = React.useState("");
   const [partId, setPartId] = React.useState("");
 
@@ -32,6 +33,7 @@ export default function CreateOrderForm({popup, setPopup}) {
                 setError("Part Id / Supplier Id are missing");
                 break;
             case 200:
+                setData([response.data, ...data]);
                 setLoading(false);
                 setError("");
                 setPopup(false);

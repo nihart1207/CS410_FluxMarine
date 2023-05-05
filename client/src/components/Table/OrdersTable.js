@@ -1,4 +1,3 @@
-// import React from "react";
 import React, { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import styled from "@emotion/styled";
@@ -58,7 +57,7 @@ const date = (isoDate) => {
 }
 
 function OrdersTable({ orders }) {
-
+  console.log(orders);
   const [selectedOrders, setSelectedOrders] = useState([]);
 
   const handleSelectOrder = (orderId) => {

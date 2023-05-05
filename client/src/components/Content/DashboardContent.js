@@ -3,7 +3,8 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { Card } from "@mui/material";
 import { CardContent } from '@mui/material';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import Box from '@mui/material/Box';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 export default function DashboardContent() {
 
@@ -35,6 +36,19 @@ export default function DashboardContent() {
   
   // For Orders table
   return (
+
+    <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          minHeight: 'calc(100vh - 64px - 56px)',
+          overflowY: 'scroll',
+          paddingTop: 2,
+          paddingBottom: 2,
+          paddingRight: 3,
+          paddingLeft: 3
+        }}
+      >
 
         <Grid container spacing={2} sx={{ mt: 2, mb: 2 }}>
       <Grid item xs={12} sm={6} md={3}>
@@ -91,5 +105,6 @@ export default function DashboardContent() {
         </Card>
       </Grid>
     </Grid>
+    </Box>
   );
 }

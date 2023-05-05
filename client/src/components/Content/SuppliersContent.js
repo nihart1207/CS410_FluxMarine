@@ -7,14 +7,15 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import SuppliersTable from "../Table/SuppliersTable";
+import ActionBar from "../Actions/ActionBar";
+import Box from '@mui/material/Box';
 
 export default function SuppliersContent() {
   
     // for suppliers table 
     const [all_suppliers, setAllSuppliers] = React.useState([]);
     const [searchName , setSearchName] = React.useState('');
-    const [suppliers, setSuppliers] = React.useState([]);
-
+    
   React.useEffect(() => {
     fetch('/api/suppliers', {
       method: 'GET',
@@ -30,29 +31,29 @@ export default function SuppliersContent() {
       })
       .then(data => {
         setAllSuppliers(data);
-        setSuppliers(data);
       })
       .catch(error => {
         console.error('Error:', error);
       });
   }, []);
-  
 
-    const handleSearchNameChange = (event) => {
-      const {value} = event.target;
-      setSearchName(value)
-      if (value) {
-        const filteredProducts = Object.values(all_suppliers).filter((product) =>
-        product.supplierName.toLowerCase().includes(value.toLowerCase())
-        );
-        setSuppliers(filteredProducts);
-      } else {
-        setSuppliers(all_suppliers);
-      }
-    };
-  
   // For Suppliers table 
   return (
+    <Box
+    component="main"
+    sx={{
+      flexGrow: 1,
+      minHeight: 'calc(100vh - 64px - 56px)',
+      overflowY: 'scroll',
+      paddingTop: 2,
+      paddingBottom: 2,
+      paddingRight: 3,
+      paddingLeft: 3
+      }}
+    >
+
+    <ActionBar name="Suppliers" data={all_suppliers} setData={setAllSuppliers} ></ActionBar>
+
       <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden" }}>
         <AppBar
           position="static"
@@ -74,7 +75,7 @@ export default function SuppliersContent() {
                     sx: { fontSize: "default" },
                   }}
                   value={searchName}
-                  onChange={handleSearchNameChange}
+                  onChange={(event)=>{setSearchName(event.target.value)}}
                   variant="standard"
                 />
               </Grid>
@@ -82,9 +83,11 @@ export default function SuppliersContent() {
           </Toolbar>
         </AppBar>
         <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
-          <SuppliersTable suppliers={suppliers} />
+          <SuppliersTable all_suppliers={all_suppliers} searchName={searchName} setAllSuppliers={setAllSuppliers} />
         </Typography>
       </Paper>
+
+      </Box>
     );
     }
   
