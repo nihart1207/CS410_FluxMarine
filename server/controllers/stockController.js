@@ -3,7 +3,7 @@ const Part = require('../models/parts');
 const Supplier = require('../models/suppliers');
 
 //get all stocks
-exports.getAllStocks = async (req, res, next) => {
+exports.getAllStocks = async (req, res) => {
     try {
       const stocks = await Stock.find().populate("supplier").populate("part");
       return res.status(200).json(stocks);
@@ -14,7 +14,7 @@ exports.getAllStocks = async (req, res, next) => {
 };
 
 //create new stock
-exports.createNewStock = async (req, res, next) => {
+exports.createNewStock = async (req, res) => {
   //if (req.user.role === "USER") res.status(401).json({message : "unauthorized to add"});
 
   const {notes, supplier_id, part_id} = req.body;
@@ -37,20 +37,17 @@ exports.createNewStock = async (req, res, next) => {
 }
 
 // update a specific stock by ID
-exports.updateStockById = async(req, res, next) => {
-  //if (req.user.role === "USER") res.status(401).json({message : "unauthorized to add"});
-
+exports.updateStockById = async(req, res) => {
   const {status, notes} = req.body;
   const {_id} = req.params;
+  if (!status) res.status(400).json({error: "missing fields"});
   const stock = await Stock.find({_id: _id});
   if (!stock) res.status(404).json({error: "stock not found"});
 
   try { 
-    const result = await Stock.findOneAndUpdate(
-      { _id: _id },
-      { status: status }
-    );
-    return res.status(200).json({message: "updated succesfully"});
+    await Stock.findOneAndUpdate({ _id: _id },{ status: status });
+    const updatedOrder = await Stock.findOne({ _id: _id });
+    return res.status(200).json(updatedOrder).populate("supplier").populate("part");
   } catch (err) {
     console.log(err)
     return res.status(500).json({message: err.message});
@@ -58,7 +55,7 @@ exports.updateStockById = async(req, res, next) => {
 };
 
 //get a specific stock by ID
-exports.getStockByID = async(req, res, next) => {
+exports.getStockByID = async(req, res) => {
     const {_id} = req.params;
     if (!_id) {
       return res.status(404).json({error: "id not provided"});

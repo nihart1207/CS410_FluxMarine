@@ -7,9 +7,11 @@ import CreateOrderForm from '../Forms/CreateOrderForm';
 import CreateNewUserForm from "../Forms/CreateNewUserForm";
 import CreateNewSupplierForm from "../Forms/CreateNewSupplierForm"
 import CreateNewPartForm from "../Forms/CreateNewPart";
+import UpdateOrderButtonAndPopup from '../Forms/UpdateOrderButtonAndPopup';
 
 export default function ActionBar({ role, name , data, setData}) {
   const [popup, setPopup] = React.useState(false);
+  const [exportBtn , setExportBtn] = React.useState(false);
 
   const handleClose = () => {
     setPopup(false);
@@ -62,17 +64,9 @@ export default function ActionBar({ role, name , data, setData}) {
         (<Box sx={{ ml: 3 }}> 
         </Box>)}
 
-     {/* exporting to excel button */}
+     {/* update button in orders */}
      {name === "Orders" &&
-        (<Button
-        color="secondary"
-        size="large"
-        variant="outlined"
-        sx={{
-          '&:hover': {
-            backgroundColor: 'rgba(33, 150, 243, 0.1)',
-          },
-            }}>Update</Button>)}
+        <UpdateOrderButtonAndPopup data={data} setData={setData}/>}
 
       {/* Add spacing between buttons */}
       {name !== "Dashboard" &&
