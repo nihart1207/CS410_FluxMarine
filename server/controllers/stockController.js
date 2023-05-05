@@ -1,6 +1,8 @@
 const Stock = require('../models/stocks');
 const Part = require('../models/parts');
 const Supplier = require('../models/suppliers');
+const fs = require('fs');
+const path = require('path');
 
 //get all stocks
 exports.getAllStocks = async (req, res) => {
@@ -12,6 +14,65 @@ exports.getAllStocks = async (req, res) => {
       return res.status(500).json({ error: err.message });
     }
 };
+
+//returns a csv of the stocks from-date to to-date
+exports.getStocksInDateRange = async (req, res) => {
+  const { fromDate, toDate } = req.query;
+
+  if (!fromDate || !toDate) {
+    return res.status(400).json({ error: 'Both from date and to date are required' });
+  }
+
+  const startDate = new Date(fromDate);
+  const endDate = new Date(toDate);
+
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    return res.status(400).json({ error: 'Invalid date format' });
+  }
+
+  const stocks = await Stock.find({ createdAt: { $gte: startDate, $lte: endDate } })
+    .populate('supplier')
+    .populate('part');
+
+  const fields = ['_id' ,'supplier.supplierName', 'part.partName', 'status', 'createdAt'];
+  const csvData = [];
+
+  stocks.forEach((stock) => {
+    const row = {};
+    fields.forEach((field) => {
+      const value = field.split('.').reduce((obj, key) => obj[key], stock);
+      row[field] = value;
+    });
+    csvData.push(row);
+  });
+
+  const filename = `stocks_${fromDate}_${toDate}.csv`;
+  res.setHeader('Content-Type', 'text/csv');
+  res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+
+  const stream = fs.createWriteStream(filename);
+  csvData.forEach((row) => stream.write(`${Object.values(row).join(',')}\n`));
+  stream.end();
+
+  stream.on('finish', () => {
+    fs.createReadStream(path.resolve(__dirname, '..', '..', filename))
+      .on('error', (err) => console.error(err))
+      .on('end', () => {
+        fs.unlinkSync(path.resolve(__dirname, '..', '..', filename));
+      })
+      .pipe(res.status(200).send());
+  });
+  stream.on('close', () => {
+    fs.unlink(path.resolve(__dirname, '..', '..', filename), (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(`File ${filename} deleted successfully`);
+      }
+    });
+  })
+}
+
 
 //create new stock
 exports.createNewStock = async (req, res) => {
@@ -46,8 +107,8 @@ exports.updateStockById = async(req, res) => {
 
   try { 
     await Stock.findOneAndUpdate({ _id: _id },{ status: status });
-    const updatedOrder = await Stock.findOne({ _id: _id });
-    return res.status(200).json(updatedOrder).populate("supplier").populate("part");
+    const updatedOrder = await Stock.findOne({ _id: _id }).populate("supplier").populate("part");
+    return res.status(200).json(updatedOrder);
   } catch (err) {
     console.log(err)
     return res.status(500).json({message: err.message});

@@ -4,6 +4,7 @@ const stockController = require('../controllers/stockController');
 const {adminAuthentication, userRestrictionAuthentication} = require('../middleware/auth')
 
 router.get('/stocks', stockController.getAllStocks);
+router.get('/stocks/csv', stockController.getStocksInDateRange);
 router.post('/stock', userRestrictionAuthentication ,stockController.createNewStock);
 router.get('/stock/:_id' , stockController.getStockByID);
 router.put('/stock/:_id' , userRestrictionAuthentication , stockController.updateStockById);

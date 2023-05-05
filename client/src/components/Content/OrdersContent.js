@@ -16,7 +16,7 @@ import ActionBar from "../Actions/ActionBar";
 
 export default function OrdersContent() {
   const [all_orders, setAllOrders] = React.useState([]);
-  const [status, setStatus] = React.useState("");
+  const [status, setStatus] = React.useState("ALL");
 
   React.useEffect(() => {
     fetch('/api/stocks', {
@@ -94,7 +94,7 @@ export default function OrdersContent() {
                 IconComponent={ArrowDropDownIcon}
                 onChange={(event)=>setStatus(event.target.value)}
                 >
-                <MenuItem value="" >Filter</MenuItem>
+                <MenuItem value="ALL" >Filter</MenuItem>
                 <MenuItem value="INVENTORY">Inventory</MenuItem>
                 <MenuItem value="RECEIVED">Received</MenuItem>
                 <MenuItem value="ASSEMBLY">Assembly</MenuItem>
