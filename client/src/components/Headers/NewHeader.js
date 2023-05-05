@@ -19,6 +19,7 @@ import UsersContent from '../../components/Content/UsersContent';
 import OrdersContent from '../Content/OrdersContent';
 import DashboardContent from '../Content/DashboardContent';
 import jwt_decode from 'jwt-decode';
+import Footer from '../Footer/footer'
 
 
 export default function Header() {
@@ -139,7 +140,7 @@ export default function Header() {
       {/* header */}
       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
         <AppBar position="static" sx={{zIndex: 1300, elevation:0 , backgroundColor:'white',}}>
-        <Toolbar>
+          <Toolbar>
           <Typography
             variant="h5"
             noWrap
@@ -176,8 +177,8 @@ export default function Header() {
               <MoreIcon />
             </IconButton>
           </Box>
-        </Toolbar>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
 
         {/* content */}
 
@@ -189,7 +190,8 @@ export default function Header() {
 
 
       {/* sideNavigation bar */}
-      <>footer</>
+      
+      <Footer />
       {renderMobileMenu}
       {renderMenu}
       {changeNamePopup && <ChangeName  setChangeNamePopup={setChangeNamePopup} />}

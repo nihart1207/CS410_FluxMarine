@@ -11,6 +11,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LineAxisIcon from '@mui/icons-material/LineAxis';
 import { Box, Typography } from '@mui/material';
+import logo from "../../assets/logo.png";
 
 const SideNav = ({ setContent , role} ) => {
   const handleItemClick = (content) => {
@@ -31,7 +32,9 @@ const SideNav = ({ setContent , role} ) => {
       }}
     >
       <List>
+      <Box sx={{ height: '7px' }} />
         <ListItem>
+          {/*
         <Typography
             variant="h3"
             noWrap
@@ -40,9 +43,10 @@ const SideNav = ({ setContent , role} ) => {
           >
             FLUXMARINE
           </Typography>
+          */}
+          <img src={logo} alt="Logo Image" style={{ maxWidth: '100%' }} />
         </ListItem>
-       <Box sx={{ height: '64px' }} />
-
+       <Box sx={{ height: '67px' }} />
 
         <ListItem button onClick={() => handleItemClick('Dashboard')}>
           <ListItemIcon>
