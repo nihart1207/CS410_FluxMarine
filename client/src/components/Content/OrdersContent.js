@@ -16,8 +16,7 @@ import ActionBar from "../Actions/ActionBar";
 
 export default function OrdersContent() {
   const [all_orders, setAllOrders] = React.useState([]);
-
-    const [orders, setOrders] = React.useState([]);
+  const [status, setStatus] = React.useState("");
 
   React.useEffect(() => {
     fetch('/api/stocks', {
@@ -34,7 +33,6 @@ export default function OrdersContent() {
       })
       .then(data => {
         setAllOrders(data);
-        setOrders(data);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -42,19 +40,6 @@ export default function OrdersContent() {
   }, []);
 
   const [searchId, setSearchId] = React.useState("");
-
-  const handleStatusFilterChange = (event) => {
-    const { value } = event.target;
-    if (value === "") {
-      setOrders(all_orders);
-    } else {
-      const filteredProducts = Object.values(all_orders).filter(
-        (product) => product.status.includes(value)
-      );
-      setOrders(filteredProducts);
-    }
-  };
-  
 
   // For Orders table
   return (
@@ -107,7 +92,7 @@ export default function OrdersContent() {
                 value=""
                 displayEmpty
                 IconComponent={ArrowDropDownIcon}
-                onChange={handleStatusFilterChange}
+                onChange={(event)=>setStatus(event.target.value)}
                 >
                 <MenuItem value="" >Filter</MenuItem>
                 <MenuItem value="INVENTORY">Inventory</MenuItem>
@@ -120,7 +105,7 @@ export default function OrdersContent() {
         </Toolbar>
       </AppBar>
       <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
-        <OrdersTable orders={orders} searchId={searchId}/>
+        <OrdersTable orders={all_orders} searchId={searchId} status={status} />
       </Typography>
     </Paper>
     </Box>

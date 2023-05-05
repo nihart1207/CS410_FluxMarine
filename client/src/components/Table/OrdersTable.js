@@ -56,32 +56,33 @@ const date = (isoDate) => {
   return `${day}/${month}/${year}`; // output: 26/3/2023
 }
 
-function OrdersTable({ orders }) {
-  console.log(orders);
-  const [selectedOrders, setSelectedOrders] = useState([]);
+function OrdersTable({ orders, searchId, status }) {
+  const [selectedOrders, setSelectedOrders] = useState(new Set());
+
+  const filterdOrders = orders.filter((order) => {
+    let match = true;
+    if (searchId && !order._id.includes(searchId)) {
+      match = false;
+    }
+    if (status && !order.status.includes(status)) {
+      match = false;
+    }
+    return match;
+  });
+
+  
 
   const handleSelectOrder = (orderId) => {
-    const isSelected = selectedOrders.includes(orderId);
+    const isSelected = selectedOrders.has(orderId);
     if (isSelected) {
-      setSelectedOrders(selectedOrders.filter((id) => id !== orderId));
+      selectedOrders.delete(orderId);
     } else {
-      setSelectedOrders([...selectedOrders, orderId]);
+      selectedOrders.add(orderId);
     }
+    setSelectedOrders(new Set(selectedOrders));
   };
 
-  const isOrderSelected = (orderId) => selectedOrders.includes(orderId);
-
-  const handleCheckboxChange = (orderId) => {
-    setSelectedOrders((selectedOrders) => {
-      if (selectedOrders.has(orderId)) {
-        selectedOrders.delete(orderId);
-      } else {
-        selectedOrders.add(orderId);
-      }
-      return new Set(selectedOrders);
-    });
-  };
-  
+  const isOrderSelected = (orderId) => selectedOrders.has(orderId);
 
   return (
     <StyledTableContainer component={Paper}>
@@ -97,12 +98,12 @@ function OrdersTable({ orders }) {
           </TableRow>
         </TableHead>
         <TableBody>
-        {orders.map((order, index) => (
+          {filterdOrders.map((order, index) => (
             <StyledTableRow key={order.id} odd={index % 2 === 0}>
               <TableCell>
                 <Checkbox
-                  checked={selectedOrders.includes(order._id)}
-                  onChange={() => handleCheckboxChange(order._id)}
+                  checked={isOrderSelected(order._id)}
+                  onChange={() => handleSelectOrder(order._id)}
                 />
               </TableCell>
               <TableCell>{order._id}</TableCell>
@@ -121,3 +122,4 @@ function OrdersTable({ orders }) {
 }
 
 export default OrdersTable;
+
