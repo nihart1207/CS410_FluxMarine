@@ -18,18 +18,26 @@ import SuppliersContent from '../../components/Content/SuppliersContent'
 import UsersContent from '../../components/Content/UsersContent';
 import OrdersContent from '../Content/OrdersContent';
 import DashboardContent from '../Content/DashboardContent';
+import jwt_decode from 'jwt-decode';
 
 
 export default function Header() {
 
+  const token = Cookies.get('token');
+  const payload = jwt_decode(token);
+  const navigate = useNavigate();
   const [content, setContent] = React.useState('Dashboard');
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [changeNamePopup, setChangeNamePopup] = React.useState(false);
   const [changePasswordPopup, setChangePasswordPopup] = React.useState(false);
-  const navigate = useNavigate();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  if (!payload) {
+    Cookies.remove('token');
+    navigate("/", {replace: true});
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -138,7 +146,7 @@ export default function Header() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block', color: 'black' } }}
           >
-            Hi, 
+            Welcome, {payload.name}
           </Typography>
           
           <Box sx={{ flexGrow: 1 }} />

@@ -2,16 +2,15 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import CreateOrderForm from '../Forms/CreateOrderForm';
 import CreateNewUserForm from "../Forms/CreateNewUserForm";
 import CreateNewSupplierForm from "../Forms/CreateNewSupplierForm"
 import CreateNewPartForm from "../Forms/CreateNewPart";
 import UpdateOrderButtonAndPopup from '../Forms/UpdateOrderButtonAndPopup';
+import ExportButtonForm from "../Forms/ExportButtonForm"
 
 export default function ActionBar({ role, name , data, setData}) {
   const [popup, setPopup] = React.useState(false);
-  const [exportBtn , setExportBtn] = React.useState(false);
 
   const handleClose = () => {
     setPopup(false);
@@ -48,16 +47,7 @@ export default function ActionBar({ role, name , data, setData}) {
 
      {/* exporting to excel button */}
      {name === "Orders" &&
-        (<Button
-        color="secondary"
-        size="large"
-        variant="outlined"
-        startIcon={<FileDownloadIcon />}
-        sx={{
-          '&:hover': {
-            backgroundColor: 'rgba(33, 150, 243, 0.1)',
-          },
-            }}>Export</Button>)}
+        <ExportButtonForm /> }
 
       {/* Add spacing between buttons */}
       {name === "Orders" &&

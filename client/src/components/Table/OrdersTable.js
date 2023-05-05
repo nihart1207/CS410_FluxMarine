@@ -64,7 +64,7 @@ function OrdersTable({ orders, searchId, status }) {
     if (searchId && !order._id.includes(searchId)) {
       match = false;
     }
-    if (status && !order.status.includes(status)) {
+    if (status !== "ALL" && !order.status.includes(status)) {
       match = false;
     }
     return match;
