@@ -150,3 +150,44 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
+const forgotPassword = asyncHandler(async (req, res) => {
+  const {email} = req.body
+  // check if user is in the db
+  const user = await User.findOne({email})
+  if (!user) {
+      res.status(404)
+      throw new Error("User does not exist")
+  }
+
+  // create reset token with user
+  const token = createTokenForUser(user)
+  
+  // construct reset URL
+  const resetURL = `${process.env.FRONTEND_URL}/resetpassword/${token}`
+
+  // reset email
+  const message = `
+      <h2>Hello ${user.name}</h2>
+      <p>Please use the url below to reset your password</p>
+      <p>This reset link is valid for 30 minutes</p>
+
+      <a href=${resetURL} clicktracking=off>${resetURL}</a>
+
+      <p>Regards FluxMarine</p>
+  `;
+  const subject = "FluxMarine Password Reset Request"
+  const send_to = user.email
+  const sent_from = process.env.EMAIL_USER
+  // const reply_to = noreply email
+
+  try {
+      await sendEmail(subject, message, send_to, sent_from)
+      res.status(200).json({
+          success: true, 
+          message: "Reset Email Sent"
+      })
+  } catch (error) {
+      res.status(500)
+      throw new Error("Email not sent, please try again")
+  }
+});
