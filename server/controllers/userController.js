@@ -1,6 +1,7 @@
 const { json } = require('body-parser');
 const User = require('../models/users');
 const {createTokenForUser} = require('../services/authentication');
+const { validateToken } = require('../services/authentication');
 
 // Create a new user
 exports.createUser = async (req, res, next) => {
@@ -150,7 +151,7 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-const forgotPassword = asyncHandler(async (req, res) => {
+exports.forgotPassword = async (req, res) => {
   const {email} = req.body
   // check if user is in the db
   const user = await User.findOne({email})
@@ -190,4 +191,30 @@ const forgotPassword = asyncHandler(async (req, res) => {
       res.status(500)
       throw new Error("Email not sent, please try again")
   }
-});
+};
+
+// reset password
+exports.resetPassword = async (req, res) => {
+  const {password} = req.body
+  const {resetToken} = req.params
+
+  // validate token
+  const payload = validateToken(resetToken)
+  
+  if (!payload) {
+      res.status(404);
+      throw new Error("Invalid or Expired Token");
+  }
+
+  // find the user
+  const {_id} = payload
+
+  const user = await User.findOne({_id})
+
+  // encryption of password is in model
+  user.password = password
+  await user.save()
+  res.status(200).json({
+      message: "Password Reset Successful"
+  })
+}

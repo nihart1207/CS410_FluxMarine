@@ -14,4 +14,8 @@ router.delete('/user/:_id', adminAuthentication , userController.deleteUserById)
 // user needs to be logged in and has to send the cookie also.
 router.put('/user', authenticationMiddleware ,userController.updateUserByEmail);
 
+router.post("/forgotpassword", userController.forgotPassword);
+
+router.put("/resetpassword/:resetToken", userController.resetPassword)
+
 module.exports = router;
