@@ -1,6 +1,7 @@
 const { json } = require('body-parser');
 const User = require('../models/users');
 const {createTokenForUser} = require('../services/authentication');
+const { validateToken } = require('../services/authentication');
 
 // Create a new user
 exports.createUser = async (req, res, next) => {
@@ -150,3 +151,70 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
+exports.forgotPassword = async (req, res) => {
+  const {email} = req.body
+  // check if user is in the db
+  const user = await User.findOne({email})
+  if (!user) {
+      res.status(404)
+      throw new Error("User does not exist")
+  }
+
+  // create reset token with user
+  const token = createTokenForUser(user)
+  
+  // construct reset URL
+  const resetURL = `${process.env.FRONTEND_URL}/resetpassword/${token}`
+
+  // reset email
+  const message = `
+      <h2>Hello ${user.name}</h2>
+      <p>Please use the url below to reset your password</p>
+      <p>This reset link is valid for 30 minutes</p>
+
+      <a href=${resetURL} clicktracking=off>${resetURL}</a>
+
+      <p>Regards FluxMarine</p>
+  `;
+  const subject = "FluxMarine Password Reset Request"
+  const send_to = user.email
+  const sent_from = process.env.EMAIL_USER
+  // const reply_to = noreply email
+
+  try {
+      await sendEmail(subject, message, send_to, sent_from)
+      res.status(200).json({
+          success: true, 
+          message: "Reset Email Sent"
+      })
+  } catch (error) {
+      res.status(500)
+      throw new Error("Email not sent, please try again")
+  }
+};
+
+// reset password
+exports.resetPassword = async (req, res) => {
+  const {password} = req.body
+  const {resetToken} = req.params
+
+  // validate token
+  const payload = validateToken(resetToken)
+  
+  if (!payload) {
+      res.status(404);
+      throw new Error("Invalid or Expired Token");
+  }
+
+  // find the user
+  const {_id} = payload
+
+  const user = await User.findOne({_id})
+
+  // encryption of password is in model
+  user.password = password
+  await user.save()
+  res.status(200).json({
+      message: "Password Reset Successful"
+  })
+}
